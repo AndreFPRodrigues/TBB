@@ -117,7 +117,7 @@ public class CoreController {
 
         // Logger receivers
         mKeystrokeEventReceiver = new ArrayList<KeystrokeLogger>();
-        KeystrokeLogger ks = new KeystrokeLogger("Keystrokes", 150); 
+        KeystrokeLogger ks = new KeystrokeLogger("Keystrokes", 150);
         ks.start(mTBBService.getApplicationContext());
         registerKeystrokeEventReceiver(ks);
 

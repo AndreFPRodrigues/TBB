@@ -84,8 +84,8 @@ public class StorageCoordinator extends BroadcastReceiver {
 				Encryption.sharedInstance().encryptFolders(isCharging,context, mSequence);
 
 				// Tell the cloud storage to sync
-				CloudStorage.sharedInstance().cloudSync(
-						TBBService.STORAGE_FOLDER, mSequence, false);
+				/*CloudStorage.sharedInstance().cloudSync(
+						TBBService.STORAGE_FOLDER, mSequence, false);*/
 				
 				//Logs first screen off
 				if(!TBBService.isRunning){					

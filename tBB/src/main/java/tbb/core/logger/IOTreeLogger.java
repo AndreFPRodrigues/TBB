@@ -235,7 +235,6 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 	    interaction= interaction.replaceAll("[\n\r]", "");
 		if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED)
 			interaction = "!*!" + interaction;
-		Log.d(TBBService.TAG, "FUCK!: " +interaction);
 		writeInteractionAsync(interaction+ "!_!" +System.currentTimeMillis());
 
 	}
