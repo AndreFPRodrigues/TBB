@@ -6,6 +6,8 @@ import tbb.core.CoreController;
 import tbb.core.service.TBBService;
 import tbb.core.ioManager.Events.InputDevice;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,14 +25,15 @@ public class Monitor {
 	boolean monitoring[];
 	private boolean virtualDriveEnable = false; 
 	private boolean rooted = false;
-
+	private boolean ioLogging = false;
 	/**
 	 * Initialises list of devices
-	 * 
+	 *
 	 * @param touchIndex
 	 * returns null if it wasnt able to open the devices (probably meaning te device is not rooted)
+	 * @param ioLogging
 	 */
-	public Monitor(int touchIndex) {
+	public Monitor(int touchIndex, boolean ioLogging) {
 		this.touchIndex = touchIndex;
 		Events ev = new Events();
 		dev = ev.Init();
@@ -39,7 +42,7 @@ public class Monitor {
 			rooted=true;
 			monitoring = new boolean[dev.size()];
 		}
-
+		this.ioLogging=ioLogging;
 	}
 
 	/**
@@ -214,7 +217,7 @@ public class Monitor {
 	 */
 	public int monitorTouch(boolean state) {
 		//if the device is not rooted ignores the request for monitoring
-		if(!rooted)
+		if(!rooted || !ioLogging)
 			return -1;
 		if (touchIndex != -1) {
 			monitorDevice(touchIndex, state);

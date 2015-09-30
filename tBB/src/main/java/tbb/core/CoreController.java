@@ -185,7 +185,7 @@ public class CoreController {
         if(mIOEventReceivers == null) return;
         for(IOEventReceiver receiver: mIOEventReceivers){
             receiver.onUpdateIOEvent(device, type, code, value,
-                    timestamp);
+					timestamp);
         }
 	}
 
@@ -472,7 +472,6 @@ public class CoreController {
 		return PreferenceManager.getDefaultSharedPreferences(mTBBService).getInt(
 				"preFileSeq", 0);
 	}
-
 
 
 }
