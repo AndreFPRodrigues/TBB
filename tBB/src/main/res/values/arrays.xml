@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="mode">
+        <item name="1">None</item>
+        <item name="2">Simple Navigation</item>
+        <item name="3">Auto Navigation</item>
+    </string-array>
+    <string-array name="modeValues">
+        <item name="1">null</item>
+        <item name="2">touchController</item>
+        <item name="3">autoNav</item>
+    </string-array>
+    
+        <string-array name="keyboardMode">
+        <item name="1">None</item>
+        <item name="2">Auto navigation</item>
+    </string-array>
+    <string-array name="keyboardValues">
+        <item name="1">null</item>
+        <item name="2">AutoNav</item>
+    </string-array>
+    
+    <string-array name="tprMode">
+        <item name="1">None</item>
+        <item name="2">input mtx</item>
+        <item name="3">sec touchscreen</item>
+    </string-array>
+    <string-array name="tprValues">
+        <item name="1">null</item>
+        <item name="2">nexusS</item>
+        <item name="3">tab2</item>
+    </string-array>
+ 
+
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/app_name" >
+
+    <PreferenceCategory
+        android:key="@string/set_mswat"
+        android:title="@string/set_mswat" >
+    
+        
+         <ListPreference
+            android:defaultValue="null"
+            android:entries="@array/tprMode"
+            android:entryValues="@array/tprValues"
+            android:key="@string/BB.PREFERENCE.TOUCH_RECOGNIZER"
+            android:summary="@string/set_tpr"
+            android:title="@string/tpr"
+            />
+         
+          
+         
+      <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/BB.PREFERENCE.LOGGING"
+            android:summary="@string/log"
+            android:title="@string/log1" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="researcher_controls"
+        android:title="@string/tbb_controls">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/BB.PREFERENCE.FLAG_RESEARCHER_SESSION"
+            android:summary="Enable this setting to log the start of a testing session, and disable when finished."
+            android:title="Researcher Session"/>
+        <Preference
+            android:key="@string/BB.PREFERENCE.FORCE_ENCRYPT"
+            android:title="Encrypt files"></Preference>
+        <Preference
+            android:key="@string/BB.PREFERENCE.FORCE_SYNC"
+            android:title="Synchronise Now"></Preference>
+        </PreferenceCategory>
+
+</PreferenceScreen>

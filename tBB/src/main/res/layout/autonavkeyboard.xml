@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="fill_parent" 
+android:layout_height="fill_parent" android:background="#FFFFFF" xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+<TableLayout android:layout_alignParentBottom="true" android:id="@+id/TableLayout01" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:clickable="false">
+
+
+<TableRow>
+<TextView android:text="A" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewA" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="B" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewB" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="C" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewC" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="D" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewD" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+</TableRow>
+
+<TableRow>
+<TextView android:text="E" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewE" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="F" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewF" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="G" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewG" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="H" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewH" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+</TableRow>
+
+<TableRow>
+<TextView android:text="I" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewI" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="J" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewJ" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="K" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewK" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="L" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewL" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="M" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewM" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="N" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewN" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+</TableRow>
+
+<TableRow>
+<TextView android:text="O" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewO" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="P" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewP" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="Q" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewQ" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="R" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewR" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="S" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewS" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="T" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewT" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView> 
+</TableRow>
+
+<TableRow> 
+<TextView android:text="U" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewU" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="V" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewV" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="W" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewW" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="X" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewX" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="Y" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewY" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="Z" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewZ" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+</TableRow>
+
+<TableRow> 
+<TextView android:text="_" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewU" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="." android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewV" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+<TextView android:text="/t" android:layout_alignParentBottom="true" android:layout_height="wrap_content" android:id="@+id/TextViewW" android:layout_width="wrap_content" android:textSize="40sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+
+</TableRow>
+
+</TableLayout>
+
+<TextView android:text="" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:id="@+id/TextViewText" android:layout_width="wrap_content" android:textSize="20sp" android:gravity="center_vertical|center_horizontal" android:textColor="#363636"></TextView>
+
+
+</RelativeLayout>

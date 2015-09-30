@@ -1,0 +1,170 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:2:1-71:12
+	xmlns:android
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:2:11-69
+	package
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:3:5-36
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:5:5-30
+	android:versionCode
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:4:5-28
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+uses-sdk
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:7:5-9:41
+MERGED from [tbb:bBUtils:unspecified] C:\Users\andre\AndroidstudioProjects\tbb\tBB\build\intermediates\exploded-aar\tbb\bBUtils\unspecified\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-v4:21.0.3] C:\Users\andre\AndroidstudioProjects\tbb\tBB\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\AndroidManifest.xml:15:5-42
+	android:targetSdkVersion
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:9:9-38
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:8:9-35
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:11:5-12:23
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:11:22-68
+uses-permission#android.permission.AUTHENTICATE_ACCOUNTS
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:13:5-14:23
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:13:22-77
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:15:5-67
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:15:22-64
+uses-permission#android.permission.GET_TASKS
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:16:5-68
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:16:22-65
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:17:5-78
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:17:22-75
+uses-permission#android.permission.WAKE_LOCK
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:18:5-68
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:18:22-65
+uses-permission#android.permission.DISABLE_KEYGUARD
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:19:5-75
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:19:22-72
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:20:5-75
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:20:22-72
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:21:5-81
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:21:22-78
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:22:22-76
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:23:5-80
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:23:22-77
+uses-permission#android.permission.READ_CONTACTS
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:24:5-72
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:24:22-69
+uses-permission#com.android.launcher.permission.INSTALL_SHORTCUT
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:25:5-88
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:25:22-85
+uses-permission#android.permission.GET_TOP_ACTIVITY_INFO
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:26:5-80
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:26:22-77
+uses-permission#android.permission.BROADCAST_STICKY
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:27:5-75
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:27:22-72
+application
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:28:5-69:19
+MERGED from [com.android.support:support-v4:21.0.3] C:\Users\andre\AndroidstudioProjects\tbb\tBB\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\AndroidManifest.xml:16:5-19
+	android:label
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:30:9-41
+	android:icon
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:29:9-45
+	android:largeHeap
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:31:10-34
+service#tbb.core.service.TBBService
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:32:9-43:19
+	android:settingsActivity
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:35:13-79
+	android:permission
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:34:13-79
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:33:13-55
+intent-filter#android.accessibilityservice.AccessibilityService
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:36:13-38:29
+action#android.accessibilityservice.AccessibilityService
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:37:17-92
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:37:25-89
+meta-data#android.accessibilityservice
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:40:13-42:57
+	android:resource
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:42:17-54
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:41:17-60
+activity#tbb.core.service.TBBPreferencesActivity
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:45:9-54:20
+	android:label
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:47:13-45
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:46:13-67
+	android:launchMode
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:48:13-43
+intent-filter#android.accessibilityservice.SERVICE_SETTINGS+android.intent.action.MAIN
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:49:13-53:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:50:17-69
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:50:25-66
+category#android.accessibilityservice.SERVICE_SETTINGS
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:52:17-90
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:52:27-87
+receiver#tbb.core.logger.StorageCoordinator
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:56:9-68:20
+	android:enabled
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:58:13-35
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:57:13-62
+intent-filter#BB.ACTION.CORECONTROLLER.INIT+BB.ACTION.CORECONTROLLER.STOP+BB.ACTION.SCREEN_OFF+BB.ACTION.SCREEN_ON+BB.STORAGECOORDINATOR.ACTION.LOCATION_REQUEST+android.intent.action.ACTION_POWER_CONNECTED+android.intent.action.ACTION_POWER_DISCONNECTED
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:59:13-67:29
+action#BB.ACTION.SCREEN_ON
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:60:17-62
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:60:25-59
+action#BB.ACTION.SCREEN_OFF
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:61:17-63
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:61:25-60
+action#BB.ACTION.CORECONTROLLER.INIT
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:62:17-72
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:62:25-69
+action#BB.ACTION.CORECONTROLLER.STOP
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:63:17-72
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:63:25-69
+action#BB.STORAGECOORDINATOR.ACTION.LOCATION_REQUEST
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:64:17-88
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:64:25-85
+action#android.intent.action.ACTION_POWER_CONNECTED
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:65:17-87
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:65:25-84
+action#android.intent.action.ACTION_POWER_DISCONNECTED
+ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:66:17-90
+	android:name
+		ADDED from C:\Users\andre\AndroidstudioProjects\tbb\tBB\src\main\AndroidManifest.xml:66:25-87

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ <string name="app_name">TBB</string>
+    <string name="controller">Controller</string>
+    <string name="default_controller">none</string>
+    <string name="set_controller">Select interface controller</string>
+    <string name="log">Logger</string>
+    <string name="log1">Enabling logging</string>
+    <string name="log2">Log at Touch</string>
+    <string name="log3">Log navigation using the control interfaces</string>
+    <string name="wifi">Start wifi controller service</string>
+    <string name="wifiTitle">Wifi controller</string>
+    <string name="audioFeed1">Audio Feedback</string>
+    <string name="audioFeed">Set Audio Feedback</string>
+    <string name="calibration">Calibration</string>
+    <string name="calibration1">First time calibration activity</string>
+    <string name="visualFeed1">Visual Feedback</string>
+    <string name="visualFeed">Set Visual Feedback</string>
+    <string name="set_mswat">Customization</string>
+    <string name="tbb_controls">Researcher Controls</string>
+    <string name="title_activity_calibration">CalibrationActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="intro_calibration">In order to calibrate the service please press the red dot</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="set_keyboard">Select the active keyboard</string>
+    <string name="tpr">Touch recognizer</string>
+    <string name="set_tpr">Select the proper Touch recognizer module</string>
+    <string name="title_activity_run_macro">RunMacro</string>
+    <string name="BB.PREFERENCE.TOUCH_RECOGNIZER">BB.PREFERENCE.TOUCH_RECOGNIZER</string>
+    <string name="BB.PREFERENCE.LOGGING">BB.PREFERENCE.LOGGING</string>
+    <string name="BB.PREFERENCE.FLAG_RESEARCHER_SESSION">BB.PREFERENCE.FLAG_RESEARCHER_SESSION</string>
+    <string name="BB.PREFERENCE.FORCE_ENCRYPT">BB.PREFERENCE.FORCE_ENCRYPT</string>
+    <string name="BB.PREFERENCE.FORCE_SYNC">BB.PREFERENCE.FORCE_SYNC</string>
+    <string name="PREF_SEQUENCE_NUMBER">BB.STORAGECOORDINATOR.PREFERENCE.SEQUENCE_NUMBER</string>
+
+</resources>
