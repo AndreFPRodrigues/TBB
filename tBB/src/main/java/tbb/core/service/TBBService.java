@@ -225,7 +225,7 @@ public class TBBService extends AccessibilityService {
 		// initialise monitor
 		// TODO remove dependency of Monitor by initializing it in
 		// CoreController
-		boolean ioLogging = mSharedPref.getBoolean(this.getString(R.string.BB_PREFERENCE_LOGIO),false);
+		boolean ioLogging = mSharedPref.getBoolean(this.getString(R.string.BB_PREFERENCE_LOGIO), false);
 		mMonitor = new Monitor(-1,ioLogging);
 
 		// initialise coreController
@@ -296,11 +296,13 @@ public class TBBService extends AccessibilityService {
 			// TODO hardcorded "TEXT"
 			if (AccessibilityEvent.eventTypeToString(eventType)
 					.contains("TEXT")) {
+				String text = event.getText().toString();
 				if (mLogAtTouch && !event.isPassword()) {
 					// TODO ??
-					if (event.getRemovedCount() > event.getAddedCount())
-						mMonitor.registerKeystroke("<<" + ","
-								+ event.getEventTime());
+					if (event.getRemovedCount() > event.getAddedCount()) {
+						mMonitor.registerKeystroke("<<",
+								System.currentTimeMillis(),text);
+					}
 					else {
 
 						if (event.getRemovedCount() != event.getAddedCount()) {
@@ -312,12 +314,15 @@ public class TBBService extends AccessibilityService {
 							// when
 							// using
 							// backspace it detects "t" instead of backspace
-							if ((event.getText().size() - 2) == event
-									.getBeforeText().length()
-									|| (event.getAddedCount() - event
-											.getRemovedCount()) > 1)
-								mMonitor.registerKeystroke("<<" + ","
-										+ event.getEventTime());
+							//TODO seems thix "Fix" was for some version of android it previously served for detecting deletes
+							//assess the repercussions in older versions (comments above)
+							//triggered on automatic writting or sliding to write
+							if ((event.getAddedCount() - event
+											.getRemovedCount()) > 1) {
+								String addedText = event.getText().toString();
+								addedText = addedText.substring(addedText.length()-event.getAddedCount()-1 , addedText.length()-1);
+								mMonitor.registerKeystroke(addedText, System.currentTimeMillis(),text);
+							}
 							else {
 								String keypressed = event.getText().toString();
 								keypressed = ""
@@ -327,8 +332,7 @@ public class TBBService extends AccessibilityService {
 								 * if (keypressed.equals(" ")) keypressed = " ";
 								 * else keypressed = "x";
 								 */
-								mMonitor.registerKeystroke(keypressed + ","
-										+ event.getEventTime());
+								mMonitor.registerKeystroke(keypressed, System.currentTimeMillis(), text);
 							}
 						}
 

@@ -4,8 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 /**
@@ -24,6 +26,8 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 	private boolean mIsSyncWriting;
 	private File rename;
 	private boolean toAppend;
+	private final String mJsonHeader="{\"records\":[";
+	private final String mJsonEnd="{}]}";
 
 	public DataWriter(ArrayList<String> data, String folderPath,
 			String filePath, boolean sync, boolean toAppend) {
@@ -68,10 +72,18 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 		if (mFolderPath != null && !mFolderPath.isEmpty() && mFilePath!=null) {
 			// creates folder
 			File folder = new File(mFolderPath);
-			if (!folder.exists())
+			if (!folder.exists()) {
 				folder.mkdirs();
+			}
 
 			File file = new File(mFilePath);
+			//if file does not exist add json header
+			if(!file.exists()){
+				mData.add(0, mJsonHeader);
+			}else{//if file exists remove closing header
+				deleteLastLine(file);
+			}
+
 			FileWriter fw;
 
 			try {
@@ -79,6 +91,7 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 				for (String line : mData) {
 					fw.write(line + "\n");
 				}
+				fw.write(mJsonEnd);
 				fw.flush();
 				fw.close();
 				Log.v(BaseLogger.TAG, SUBTAG + mData.size()
@@ -106,6 +119,27 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 		}
 
 		return null;
+	}
+
+	private void deleteLastLine(File fileName){
+		RandomAccessFile f = null;
+		byte b;
+		try {
+			f = new RandomAccessFile(fileName, "rw");
+			long length = f.length() - 1;
+			do {
+				length -= 1;
+				f.seek(length);
+				 b = f.readByte();
+			} while(b != 10 && length>0);
+			f.setLength(length+1);
+			f.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override

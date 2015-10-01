@@ -61,7 +61,6 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 		// parameters of interaction log
 		mIntData = new ArrayList<String>();
-		mIntData.add("{\"sequence\":[");
 		mIntName = interactionName;
 		mIntThreshold = ioFlushThreshold;
 
@@ -107,7 +106,7 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 			super.onStorageUpdate(path, sequence);
 			// Log.v(TBBService.TAG, SUBTAG + "onStorageUpdate");
 			setIOFileInfo(path, sequence);
-			setInteractionFileInfo(path,sequence);
+			setInteractionFileInfo(path, sequence);
 		} catch (Exception e) {
 			Toast.makeText(CoreController.sharedInstance().getTBBService(),
 					"TBB Exception", Toast.LENGTH_LONG).show();
@@ -230,6 +229,7 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 	private void interactionLog(AccessibilityEvent event) {
 		AccessibilityNodeInfo source = event.getSource();
+		String eventType = AccessibilityEvent.eventTypeToString(event.getEventType());
 		String app = event.getPackageName().toString();
 		String step = "";
 
@@ -240,9 +240,11 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 		source = event.getSource();
 		if (source == null) {
-			writeInteractionAsync("{\"step\":\"" + step + "\"" +
+			writeInteractionAsync("{\"desc\":\"" + step + "\"" +
 					" , \"timestamp\":" + System.currentTimeMillis() +
-					" , \"app\":\"" + app + "\" },");
+					" , \"package\":\"" + app +
+					" , \"type\":" + eventType +
+					"\" },");
 			return;
 		}
 
@@ -250,9 +252,10 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 		if (step.length() < 1) {
 			step = sourceText;
 		}
-		writeInteractionAsync("{\"step\":\"" + step + "\""+
+		writeInteractionAsync("{\"desc\":\"" + step + "\""+
 				" , \"timestamp\":" + System.currentTimeMillis() +
-				" , \"app\":\"" + app + "\" },");
+				" , \"app\":\"" + app+
+				" , \"type\":" + eventType + "\" },");
 
 	}
 
@@ -261,12 +264,9 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 		mIntData.add(data);
 		// Log.v(TBBService.TAG, SUBTAG + "mIOData size:"+mIOData.size());
 
-		/*TODO add a threshold to how many interactions are saved in memory before writing,
-		If we are going to make multiple writes to the same log we need to solve the issue
-		 of the json header and closing of the header that is currently
-		 added as the first and last interaction on the list*/
-		/*if (mIntData.size() >= mIntThreshold)
-			flushInteraction();*/
+		if (mIntData.size() >= mIntThreshold)
+			flushInteraction();
+
 	}
 
 	public void writeInteractionSync(ArrayList<String> data) {
@@ -277,14 +277,12 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 	private void flushInteraction() {
 		 Log.v(TBBService.TAG, SUBTAG +
-	 "FlushIO - "+mIntData.size()+" file: "+mIntFilename);
-		mIntData.add("{}]}");
+				 "FlushInteraction - " + mIntData.size() + " file: " + mIntFilename);
 
 		DataWriter w = new DataWriter(mIntData, mFolderName, mIntFilename,
 				false, true);
 		w.execute();
 		mIntData = new ArrayList<String>();
-		mIntData.add("{\"sequence\":[");
 
 	}
 

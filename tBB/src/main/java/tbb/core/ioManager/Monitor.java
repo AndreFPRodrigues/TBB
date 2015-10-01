@@ -50,10 +50,10 @@ public class Monitor {
 	 * 
 	 * @param keypressed 
 	 */
-	public void registerKeystroke(String keypressed) {
+	public void registerKeystroke(String keypressed, long timestamp, String text) {
 
 		// Log keystrokes
-		CoreController.sharedInstance().updateKeystrokeEventReceivers(keypressed);
+		CoreController.sharedInstance().updateKeystrokeEventReceivers(keypressed, timestamp, text);
 	}
 
 	/**

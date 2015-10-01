@@ -155,11 +155,11 @@ public class CoreController {
     /**
      * Keystrokes propagated to mKeystrokeEventReceiver
      */
-    public void updateKeystrokeEventReceivers(String keystroke) {
+    public void updateKeystrokeEventReceivers(String keystroke, long timestamp, String text) {
 
         if(mKeystrokeEventReceiver == null) return;
         for(KeystrokeLogger receiver: mKeystrokeEventReceiver){
-            receiver.onKeystroke(keystroke);
+            receiver.onKeystroke(keystroke, timestamp, text);
         }
 	}
 

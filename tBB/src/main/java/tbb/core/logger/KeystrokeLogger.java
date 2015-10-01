@@ -1,9 +1,6 @@
 package tbb.core.logger;
 
-import android.util.Log;
-
 import blackbox.external.logger.Logger;
-import tbb.core.service.TBBService;
 import tbb.interfaces.KeystrokeEventReceiver;
 
 
@@ -18,8 +15,12 @@ public class KeystrokeLogger extends Logger implements KeystrokeEventReceiver {
     /**
      * Write the string record into the log file
      */
-    public void onKeystroke(String keystroke) {
-       // Log.v(TBBService.TAG, SUBTAG + "key: " + keystroke);
-        writeAsync(keystroke);
+    public void onKeystroke(String keystroke, long timestamp, String text) {
+
+       String json = "{\"keystroke\":\"" + keystroke + "\"" +
+                        " , \"timestamp\":" + timestamp +
+                        " , \"text\":\"" + text +
+                        "\"},";
+        writeAsync(json);
     }
 }
