@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 class AccessibilityScrapping {
+	private static final int THRESHOLD=100;
 
 	public static int hashIt(AccessibilityNodeInfo n) {
 		if (n != null) {
@@ -68,6 +69,68 @@ class AccessibilityScrapping {
 		}
 
 		return sb.toString();
+	}
+
+	static   String cleanText(String text) {
+		String  result = text.replaceAll("\""," ");
+		result = result.replaceAll("\'"," ");
+		result = result.replaceAll("[\r\n]"," ");
+		result = result.substring(0, Math.min(result.length(), THRESHOLD));
+		return result;
+	}
+
+	static String getDescriptionNew(AccessibilityNodeInfo src) {
+		try {
+			if (src != null) {
+				String text;
+				if ((text = getText(src)) != null) {
+					return cleanText(text);
+				}
+				else {
+					int numchild = src.getChildCount();
+					for (int i = 0; i < numchild; i++) {
+						if ((text = getText(src.getChild(i))) != null) {
+							return  cleanText(text);
+						} else {
+							src.getChild(i).recycle();
+						}
+					}
+					src = src.getParent();
+					numchild = src.getChildCount();
+					for (int i = 0; i < numchild; i++) {
+						if ((text = getText(src.getChild(i))) != null) {
+
+							return cleanText(text);
+						} else {
+							src.getChild(i).recycle();
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			return "";
+		}
+		return "";
+	}
+
+	/**
+	 * Gets the node text either getText() or contentDescription
+	 *
+	 * @param src
+	 * @return node text/description null if it doesnt have
+	 */
+	public static String getText(AccessibilityNodeInfo src) {
+		String text = null;
+
+		if (src.getText() != null || src.getContentDescription() != null) {
+			if (src.getText() != null)
+				text = src.getText().toString();
+			else
+				text = src.getContentDescription().toString();
+			src.recycle();
+		}
+
+		return text;
 	}
 
 	static String getDescription(AccessibilityNodeInfo n) {

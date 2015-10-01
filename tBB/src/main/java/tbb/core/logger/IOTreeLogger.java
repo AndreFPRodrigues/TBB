@@ -61,8 +61,9 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 		// parameters of interaction log
 		mIntData = new ArrayList<String>();
+		mIntData.add("{\"sequence\":[");
 		mIntName = interactionName;
-		mIntThreshold = treeFlushThreshold;
+		mIntThreshold = ioFlushThreshold;
 
 		mTPR = CoreController.sharedInstance().getActiveTPR();
 		mTouchDevice = CoreController.sharedInstance().monitorTouch(true);
@@ -228,14 +229,30 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 	}
 
 	private void interactionLog(AccessibilityEvent event) {
-		String interaction = "";
+		AccessibilityNodeInfo source = event.getSource();
+		String app = event.getPackageName().toString();
+		String step = "";
+
 		for (CharSequence cs : event.getText()) {
-			interaction += cs + " ";
+			step += cs + ";";
 		}
-	    interaction= interaction.replaceAll("[\n\r]", "");
-		if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED)
-			interaction = "!*!" + interaction;
-		writeInteractionAsync(interaction+ "!_!" +System.currentTimeMillis());
+		step = AccessibilityScrapping.cleanText(step);
+
+		source = event.getSource();
+		if (source == null) {
+			writeInteractionAsync("{\"step\":\"" + step + "\"" +
+					" , \"timestamp\":" + System.currentTimeMillis() +
+					" , \"app\":\"" + app + "\" },");
+			return;
+		}
+
+		String sourceText = AccessibilityScrapping.getDescriptionNew(source);
+		if (step.length() < 1) {
+			step = sourceText;
+		}
+		writeInteractionAsync("{\"step\":\"" + step + "\""+
+				" , \"timestamp\":" + System.currentTimeMillis() +
+				" , \"app\":\"" + app + "\" },");
 
 	}
 
@@ -244,8 +261,12 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 		mIntData.add(data);
 		// Log.v(TBBService.TAG, SUBTAG + "mIOData size:"+mIOData.size());
 
-		if (mIntData.size() >= mIntThreshold)
-			flushInteraction();
+		/*TODO add a threshold to how many interactions are saved in memory before writing,
+		If we are going to make multiple writes to the same log we need to solve the issue
+		 of the json header and closing of the header that is currently
+		 added as the first and last interaction on the list*/
+		/*if (mIntData.size() >= mIntThreshold)
+			flushInteraction();*/
 	}
 
 	public void writeInteractionSync(ArrayList<String> data) {
@@ -257,10 +278,13 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 	private void flushInteraction() {
 		 Log.v(TBBService.TAG, SUBTAG +
 	 "FlushIO - "+mIntData.size()+" file: "+mIntFilename);
+		mIntData.add("{}]}");
+
 		DataWriter w = new DataWriter(mIntData, mFolderName, mIntFilename,
 				false, true);
 		w.execute();
 		mIntData = new ArrayList<String>();
+		mIntData.add("{\"sequence\":[");
 
 	}
 
