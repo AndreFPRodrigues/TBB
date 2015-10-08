@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -14,95 +15,36 @@ import java.util.ArrayList;
  * Writes data to log file
  */
 
-public class DataWriter extends AsyncTask<Void, Void, String> {
+public class DataWriter extends AsyncTask<String, Void, String> {
 
 	private final static String SUBTAG = "DataWriter: ";
 
-	private ArrayList<String> mData;
 	private String mFilePath;
 	private String mFolderPath;
-	private boolean mIsSyncWriting;
 	private File rename;
 	private boolean toAppend;
 
-	public DataWriter(ArrayList<String> data, String folderPath,
-			String filePath, boolean sync, boolean toAppend) {
-		mData = data;
+	public DataWriter(String folderPath, String filePath, boolean toAppend) {
 		mFilePath = filePath;
 		mFolderPath = folderPath;
-		mIsSyncWriting = sync;
 		rename = null;
 		this.toAppend = toAppend;
-
-		if (mIsSyncWriting) {
-
-			if (mData != null && !mData.isEmpty()) {
-
-				// creates file
-				writeFile(toAppend);
-			}
-		}
 	}
 
-	public DataWriter(ArrayList<String> data, String folderPath,
-			String filePath, boolean sync, boolean toAppend,
-			File renamePostExecute) {
-		mData = data;
+	public DataWriter(String folderPath, String filePath, boolean toAppend, File renamePostExecute) {
 		mFilePath = filePath;
 		mFolderPath = folderPath;
-		mIsSyncWriting = sync;
 		rename = renamePostExecute;
 		this.toAppend = toAppend;
-
-		if (mIsSyncWriting) {
-
-			if (mData != null && !mData.isEmpty()) {
-
-				// creates file
-				writeFile(toAppend);
-			}
-		}
-	}
-
-	private void writeFile(boolean toAppend) {
-		if (mFolderPath != null && !mFolderPath.isEmpty() && mFilePath!=null) {
-			// creates folder
-			File folder = new File(mFolderPath);
-			if (!folder.exists())
-				folder.mkdirs();
-
-			File file = new File(mFilePath);
-			FileWriter fw;
-
-			try {
-				fw = new FileWriter(file, toAppend);
-				for (String line : mData) {
-					fw.write(line + "\n");
-				}
-				fw.flush();
-				fw.close();
-				Log.v(BaseLogger.TAG, SUBTAG + mData.size()
-						+ " Data write ok: " + file.getAbsolutePath()
-						+ " toAppend: " + toAppend);
-				mData = new ArrayList<String>();
-
-			} catch (IOException e) {
-				Log.v(BaseLogger.TAG,
-						SUBTAG + "Data write BROKEN: " + file.getAbsolutePath()
-								+ " " + e.getMessage());
-			}
-		}
 	}
 
 	@Override
-	protected String doInBackground(Void... params) {
-		if (mIsSyncWriting)
-			return null;
+	protected String doInBackground(String... data) {
 
-		if (mData != null && !mData.isEmpty()) {
+		if (data != null && data.length > 0) {
 
 			// creates file
-			writeFile(toAppend);
+			writeFile(data, toAppend);
 		}
 
 		return null;
@@ -114,7 +56,36 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 			File file = new File(mFilePath);
 			file.renameTo(rename);
 			Log.v(BaseLogger.TAG, SUBTAG + "Successfully renamed");
-
 		}
 	}
+
+	private void writeFile(String[] data, boolean toAppend) {
+		if (mFolderPath != null && !mFolderPath.isEmpty() && mFilePath!=null) {
+			// creates folder
+			File folder = new File(mFolderPath);
+			if (!folder.exists())
+				folder.mkdirs();
+
+			File file = new File(mFilePath);
+			FileWriter fw;
+
+			try {
+				fw = new FileWriter(file, toAppend);
+				for (String line : data) {
+					fw.write(line + "\n");
+				}
+				fw.flush();
+				fw.close();
+				Log.v(BaseLogger.TAG, SUBTAG + data.length
+						+ " Data write ok: " + file.getAbsolutePath()
+						+ " toAppend: " + toAppend);
+
+			} catch (IOException e) {
+				Log.v(BaseLogger.TAG,
+						SUBTAG + "Data write BROKEN: " + file.getAbsolutePath()
+								+ " " + e.getMessage());
+			}
+		}
+	}
+
 }

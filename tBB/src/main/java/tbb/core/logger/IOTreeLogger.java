@@ -30,12 +30,14 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 	private String mTreeData;
 
 	// EXTENDING TO LOG TWO COUPLED LOGGERS
+	private final Object mIOLock = new Object(); // used to synchronize access to mIOData
 	private ArrayList<String> mIOData;
 	private String mIOFilename;
 	private static String mIOName;
 	private static int mIOThreshold;
 
 	// interaction log
+	private final Object mIntLock = new Object(); // used to synchronize access to mIOData
 	private ArrayList<String> mIntData;
 	private String mIntFilename;
 	private static String mIntName;
@@ -106,7 +108,7 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 			super.onStorageUpdate(path, sequence);
 			// Log.v(TBBService.TAG, SUBTAG + "onStorageUpdate");
 			setIOFileInfo(path, sequence);
-			setInteractionFileInfo(path,sequence);
+			setInteractionFileInfo(path, sequence);
 		} catch (Exception e) {
 			Toast.makeText(CoreController.sharedInstance().getTBBService(),
 					"TBB Exception", Toast.LENGTH_LONG).show();
@@ -131,11 +133,11 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 	private void flushIO() {
 		// Log.v(TBBService.TAG, SUBTAG +
 		// "FlushIO - "+mIOData.size()+" file: "+mIOFilename);
-		DataWriter w = new DataWriter(mIOData, mFolderName, mIOFilename, false,
-				true);
-		w.execute();
-		mIOData = new ArrayList<String>();
-
+		synchronized (mIOLock) {
+			DataWriter w = new DataWriter(mFolderName, mIOFilename, true);
+			w.execute(mIOData.toArray(new String[mIOData.size()]));
+			mIOData = new ArrayList<String>();
+		}
 	}
 
 	private void setIOFileInfo(String path, String sequence) {
@@ -150,17 +152,14 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 	public void writeIOAsync(String data) {
 
-		mIOData.add(data);
-		// Log.v(TBBService.TAG, SUBTAG + "mIOData size:"+mIOData.size());
+		synchronized (mIOLock) {
+			mIOData.add(data);
+		}
 
+		// Log.v(TBBService.TAG, SUBTAG + "mIOData size:"+mIOData.size());
 		if (mIOData.size() >= mIOThreshold)
 			flushIO();
-	}
 
-	public void writeIOSync(ArrayList<String> data) {
-
-		mIOData.addAll(data);
-		flushIO();
 	}
 
 	/**
@@ -180,8 +179,6 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 		if (event.getEventTime() < mTimestamp) {
 			return;
 		}
-
-	
 
 		AccessibilityNodeInfo src = event.getSource();
 		AccessibilityNodeInfo parent = AccessibilityScrapping
@@ -236,32 +233,27 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 		if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED)
 			interaction = "!*!" + interaction;
 		writeInteractionAsync(interaction+ "!_!" +System.currentTimeMillis());
-
 	}
 
 	public void writeInteractionAsync(String data) {
 
-		mIntData.add(data);
-		// Log.v(TBBService.TAG, SUBTAG + "mIOData size:"+mIOData.size());
+		synchronized (mIntLock) {
+			mIntData.add(data);
+		}
 
+		// Log.v(TBBService.TAG, SUBTAG + "mIOData size:"+mIOData.size());
 		if (mIntData.size() >= mIntThreshold)
 			flushInteraction();
 	}
 
-	public void writeInteractionSync(ArrayList<String> data) {
-
-		mIntData.addAll(data);
-		flushInteraction();
-	}
-
 	private void flushInteraction() {
-		 Log.v(TBBService.TAG, SUBTAG +
-	 "FlushIO - "+mIntData.size()+" file: "+mIntFilename);
-		DataWriter w = new DataWriter(mIntData, mFolderName, mIntFilename,
-				false, true);
-		w.execute();
-		mIntData = new ArrayList<String>();
-
+		Log.v(TBBService.TAG, SUBTAG +
+	 		"FlushIO - "+mIntData.size()+" file: "+mIntFilename);
+		synchronized (mIntLock) {
+			DataWriter w = new DataWriter(mFolderName, mIntFilename, true);
+			w.execute(mIntData.toArray(new String[mIntData.size()]));
+			mIntData = new ArrayList<String>();
+		}
 	}
 
 	@Override

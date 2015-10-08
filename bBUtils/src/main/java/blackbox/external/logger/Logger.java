@@ -20,6 +20,7 @@ public class Logger implements BaseLogger{
 
 
     private static final String SUBTAG = "Logger: ";
+    private final Object mLock = new Object(); // used to synchronize access to mData
 
     protected String mFolderName = "";
     protected String mFilename = "";
@@ -72,11 +73,11 @@ public class Logger implements BaseLogger{
 
     public void onStorageUpdate(String path, String sequence){
         Log.v(BaseLogger.TAG, SUBTAG + "onStorageUpdate:"+path+" sequence:"+sequence);
-        setFileInfo(path,sequence);
+        setFileInfo(path, sequence);
     }
 
     public void onLocationReceived(String path, String sequence) {
-        Log.v(BaseLogger.TAG, SUBTAG + "onLocationReceived:"+path+" sequence:"+sequence);
+        Log.v(BaseLogger.TAG, SUBTAG + "onLocationReceived:" + path + " sequence:" + sequence);
         if(mSequence!= sequence)
             setFileInfo(path,sequence);
     }
@@ -95,28 +96,21 @@ public class Logger implements BaseLogger{
 
     private void flush(){
         //Log.v(BaseLogger.TAG, SUBTAG + "Flush - "+mData.size()+" file: "+mFilename);
-        DataWriter w = new DataWriter(mData, mFolderName, mFilename, false, true);
-        w.execute();
-        mData = new ArrayList<String>();
+        DataWriter w = new DataWriter(mFolderName, mFilename, true);
+        synchronized (mLock) {
+            w.execute(mData.toArray(new String[mData.size()])); // data is passed to background thread
+            mData = new ArrayList<String>(); // initialization
+        }
     } 
 
     public void writeAsync(String data){
-        mData.add(data);
+        synchronized (mLock) {
+            mData.add(data);
+        }
+
         //Log.v(BaseLogger.TAG, SUBTAG + "mData size:"+mData.size());
-        if(mData.size() >= mFlushThreshold)
+        if (mData.size() >= mFlushThreshold)
             flush();
-    }
-
-    public void writeSync(ArrayList<String> data){
-        mData.addAll(data);
-        flush();
-    }
-
-    public void writeFile(File file){
-        String name = file.getName();
-        File to = new File(mFolderName + "/" + name);
-        to.getParentFile().mkdirs();
-        file.renameTo(to);
     }
 
     /**

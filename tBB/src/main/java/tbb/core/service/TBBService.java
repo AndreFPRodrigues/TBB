@@ -402,8 +402,9 @@ public class TBBService extends AccessibilityService {
 	public static void writeToErrorLog(String message) {
 		ArrayList<String> data = new ArrayList<String>();
 		data.add(message);
-		DataWriter dw = new DataWriter(data, STORAGE_FOLDER, STORAGE_FOLDER
-				+ "/" + ERROR_FILE, true, true);
+		DataWriter dw = new DataWriter(STORAGE_FOLDER, STORAGE_FOLDER
+				+ "/" + ERROR_FILE, true);
+		dw.execute(data.toArray(new String[data.size()]));
 	}
 
 	/**

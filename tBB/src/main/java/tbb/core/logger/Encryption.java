@@ -214,10 +214,9 @@ public class Encryption {
 						}
 					}
 				}
-				DataWriter w = new DataWriter(newInteraction, path,
-						interaction.getAbsolutePath(), false, false,
+				DataWriter w = new DataWriter(path,	interaction.getAbsolutePath(), false,
 						interactionEnc);
-				w.execute();
+				w.execute(newInteraction.toArray(new String[newInteraction.size()]));
 			}
 			inputStream.close();
 
@@ -256,10 +255,9 @@ public class Encryption {
 								+ "," + toEncryptArray[1]);
 					}
 				}
-				DataWriter w = new DataWriter(newKeys, path,
-						keyStrokes.getAbsolutePath(), false, false,
+				DataWriter w = new DataWriter(path, keyStrokes.getAbsolutePath(), false,
 						keyStrokesEnc);
-				w.execute();
+				w.execute(newKeys.toArray(new String[newKeys.size()]));
 				inputStream.close();
 			}
 		} catch (FileNotFoundException e) {
@@ -303,9 +301,8 @@ public class Encryption {
 
 				inputStream.close();
 			}
-			DataWriter w = new DataWriter(newTree, path,
-					tree.getAbsolutePath(), false, false, treeEnc);
-			w.execute();
+			DataWriter w = new DataWriter(path, tree.getAbsolutePath(), false, treeEnc);
+			w.execute(newTree.toArray(new String[newTree.size()]));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
