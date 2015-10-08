@@ -20,7 +20,7 @@ public class Logger implements BaseLogger{
 
 
     private static final String SUBTAG = "Logger: ";
-    private final Object mLock = new Object(); // used to synchronize access to mData
+    protected final Object mLock = new Object(); // used to synchronize access to mData
 
     protected String mFolderName = "";
     protected String mFilename = "";

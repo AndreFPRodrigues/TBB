@@ -29,6 +29,10 @@ import blackbox.external.logger.DataWriter;
 
 import tbb.core.service.TBBService;
 
+/**
+ * TODO THIS IS NOT BEING USED RIGHT NOW!
+ */
+
 public class Encryption {
 
 	// shared instance for singleton design pattern
@@ -116,6 +120,7 @@ public class Encryption {
 								int curSequence = Integer
 										.parseInt(sequenceFolder.getName());
 								if (curSequence < (sequence - 1)) {
+									// TODO sequence - 2 folder can still be being written?
 									File tree = new File(treeFolder
 											+ curSequence + "_Tree.txt");
 									File treeEnc = new File(treeFolder

@@ -207,20 +207,27 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 			sb.append("{" + AccessibilityScrapping.getDescription(parent)
 					+ result + "\n}");
 
-			// TODO wtf is this?
+			synchronized (mLock) {
+				mTreeData = sb.toString();
+			}
+			lastRead = result.hashCode();
+
+			// TODO !wtf is this? mTreeData sent to write can be different than sb or even invalid
+			// get the most recent tree within a 200 time span
 			if (!isAdding) {
 				isAdding = true;
 				Handler toAdd = new Handler();
 				toAdd.postDelayed(new Runnable() {
 					public void run() {
-						writeAsync(mTreeData);
+						String dataCopy = null;
+						synchronized (mLock) {
+							dataCopy = new String(mTreeData);
+						}
+						writeAsync(dataCopy);
 						isAdding = false;
 					}
 				}, 200);
 			}
-			// TODO should we move this to above the isAdding.
-			mTreeData = sb.toString();
-			lastRead = result.hashCode();
 		}
 	}
 
