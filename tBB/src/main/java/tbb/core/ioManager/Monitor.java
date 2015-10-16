@@ -6,6 +6,8 @@ import tbb.core.CoreController;
 import tbb.core.service.TBBService;
 import tbb.core.ioManager.Events.InputDevice;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,19 +24,25 @@ public class Monitor {
 	private int touchIndex = -1;
 	boolean monitoring[];
 	private boolean virtualDriveEnable = false; 
-
-
+	private boolean rooted = false;
+	private boolean ioLogging = false;
 	/**
-	 * Initialises list of devices Initialises KeystrokeLogger if logging is true
-	 * 
+	 * Initialises list of devices
+	 *
 	 * @param touchIndex
+	 * returns null if it wasnt able to open the devices (probably meaning te device is not rooted)
+	 * @param ioLogging
 	 */
-	public Monitor(int touchIndex) {
+	public Monitor(int touchIndex, boolean ioLogging) {
+		this.touchIndex = touchIndex;
 		Events ev = new Events();
 		dev = ev.Init();
- 
-		this.touchIndex = touchIndex;
-		monitoring = new boolean[dev.size()];
+		//if a device was successfuly opened then the deviec is rooted
+		if(dev.size()>0) {
+			rooted=true;
+			monitoring = new boolean[dev.size()];
+		}
+		this.ioLogging=ioLogging;
 	}
 
 	/**
@@ -105,9 +113,12 @@ public class Monitor {
 	 * 
 	 * @param index - device index
 	 * @param state - true to monitor, false to stop monitoring
+	 * @requires    rooted=true
 	 */
 	public void monitorDevice(final int index, final boolean state) {
-
+		if(monitoring==null || index>monitoring.length){
+			return ;
+		}
 		if (state != monitoring[index]) {
 			monitoring[index] = state;
 			if (monitoring[index]) {
@@ -205,7 +216,9 @@ public class Monitor {
 	 * @return index of the touch device if successful -1 if not
 	 */
 	public int monitorTouch(boolean state) {
-
+		//if the device is not rooted ignores the request for monitoring
+		if(!rooted || !ioLogging)
+			return -1;
 		if (touchIndex != -1) {
 			monitorDevice(touchIndex, state);
 			return touchIndex;

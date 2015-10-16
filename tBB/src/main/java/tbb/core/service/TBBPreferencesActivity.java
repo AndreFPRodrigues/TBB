@@ -14,6 +14,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
+import android.util.Log;
+
 
 import java.util.ArrayList;
 import java.util.prefs.PreferenceChangeEvent;
@@ -37,7 +39,6 @@ public class TBBPreferencesActivity extends PreferenceActivity {
                         .getDefaultSharedPreferences(getApplicationContext());
                 int mSequence = mPref.getInt(getResources().getString(R.string.PREF_SEQUENCE_NUMBER), 0);
 
-
                 if(preference.getKey().equals(getResources().getString(R.string.BB_PREFERENCE_FORCE_ENCRYPT))){
 
                     Encryption.sharedInstance().encryptFolders(true,getApplicationContext(),mSequence);
@@ -55,6 +56,7 @@ public class TBBPreferencesActivity extends PreferenceActivity {
         Preference.OnPreferenceChangeListener preferenceChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
+
                 if(preference.getKey().equals(getResources().getString(R.string.BB_PREFERENCE_FLAG_RESEARCHER_SESSION))) {
                     boolean checked = Boolean.valueOf(o.toString());
                     String state = (checked)?"started":"ended";
@@ -62,17 +64,34 @@ public class TBBPreferencesActivity extends PreferenceActivity {
                     MessageLogger.sharedInstance().writeAsync(data);
                     MessageLogger.sharedInstance().onFlush();
                     return true;
-                }
+                }else{
+                    //adding to the shared preferences if the user wants or not to record IO
+                    //TODO stop and start io logging in real time when we change the preference
+                    if(preference.getKey().equals(getResources().getString(R.string.BB_PREFERENCE_LOGIO))) {
+                        boolean checked = Boolean.valueOf(o.toString());
+                        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putBoolean(
+                                getString(R.string.BB_PREFERENCE_LOGIO), checked);
+                        editor.commit();
+                        return true;
+                    }
+
+                    }
                 return false;
             }
         };
 
         CheckBoxPreference researcher_pref = (CheckBoxPreference)findPreference(getResources().getString(R.string.BB_PREFERENCE_FLAG_RESEARCHER_SESSION));
+        CheckBoxPreference log_io_pref = (CheckBoxPreference)findPreference(getResources().getString(R.string.BB_PREFERENCE_LOGIO));
+
         Preference sync_pref = findPreference(getResources().getString(R.string.BB_PREFERENCE_FORCE_SYNC));
         Preference encrypt_pref = findPreference(getResources().getString(R.string.BB_PREFERENCE_FORCE_ENCRYPT));
 
 
         researcher_pref.setOnPreferenceChangeListener(preferenceChangeListener);
+        log_io_pref.setOnPreferenceChangeListener(preferenceChangeListener);
+
         sync_pref.setOnPreferenceClickListener(preferenceClickListener);
         encrypt_pref.setOnPreferenceClickListener(preferenceClickListener);
 

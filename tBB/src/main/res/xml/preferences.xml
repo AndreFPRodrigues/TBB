@@ -23,6 +23,12 @@
             android:key="@string/BB.PREFERENCE.LOGGING"
             android:summary="@string/log"
             android:title="@string/log1" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/BB.PREFERENCE.LOGIO"
+            android:summary="@string/logIOTitle"
+            android:dependency="@string/BB.PREFERENCE.LOGGING"
+            android:title="@string/logIO" />
     </PreferenceCategory>
 
     <PreferenceCategory android:key="researcher_controls"

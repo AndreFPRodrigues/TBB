@@ -7,8 +7,8 @@
     <string name="set_controller">Select interface controller</string>
     <string name="log">Logger</string>
     <string name="log1">Enabling logging</string>
-    <string name="log2">Log at Touch</string>
-    <string name="log3">Log navigation using the control interfaces</string>
+    <string name="logIO">Log Touches</string>
+    <string name="logIOTitle">Requires rooted device</string>
     <string name="wifi">Start wifi controller service</string>
     <string name="wifiTitle">Wifi controller</string>
     <string name="audioFeed1">Audio Feedback</string>
@@ -30,9 +30,10 @@
     <string name="title_activity_run_macro">RunMacro</string>
     <string name="BB.PREFERENCE.TOUCH_RECOGNIZER">BB.PREFERENCE.TOUCH_RECOGNIZER</string>
     <string name="BB.PREFERENCE.LOGGING">BB.PREFERENCE.LOGGING</string>
-    <string name="BB.PREFERENCE.FLAG_RESEARCHER_SESSION">BB.PREFERENCE.FLAG_RESEARCHER_SESSION</string>
+   <string name="BB.PREFERENCE.FLAG_RESEARCHER_SESSION">BB.PREFERENCE.FLAG_RESEARCHER_SESSION</string>
     <string name="BB.PREFERENCE.FORCE_ENCRYPT">BB.PREFERENCE.FORCE_ENCRYPT</string>
     <string name="BB.PREFERENCE.FORCE_SYNC">BB.PREFERENCE.FORCE_SYNC</string>
     <string name="PREF_SEQUENCE_NUMBER">BB.STORAGECOORDINATOR.PREFERENCE.SEQUENCE_NUMBER</string>
+   <string name="BB.PREFERENCE.LOGIO">BB.PREFERENCE.LOGIO</string>
 
 </resources>

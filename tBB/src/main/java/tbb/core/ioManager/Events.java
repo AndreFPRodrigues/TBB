@@ -23,8 +23,10 @@
  */
 
 package tbb.core.ioManager;
-  
-import java.util.ArrayList; 
+
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class Events {
 
@@ -44,7 +46,7 @@ public class Events {
 		public int InjectEvent() {
 			return 0;
 		}
-	
+
 
 		public int getPollingEvent() {
 			return PollDev(m_nId);
@@ -92,7 +94,7 @@ public class Events {
 			int state=0;
 			if(value)
 				state=1;
-				
+
 			takeOverDevice(m_nId, state);
 		}
 
@@ -106,7 +108,7 @@ public class Events {
 
 		/**
 		 * function Open : opens an input event node
-		 * 
+		 *
 		 * @param forceOpen
 		 *            will try to set permissions and then reopen if first open
 		 *            attempt fails
@@ -136,7 +138,7 @@ public class Events {
 			return m_bOpen;
 
 		}
-		
+
 		public int  createVirtualDrive(String touch, int protocol, int absX, int absY) {
 			if (Shell.isSuAvailable()) {
 				Shell.runCommand("chmod 666 " + "/dev/uinput");
@@ -144,11 +146,11 @@ public class Events {
 
 			return createVirtualDevice(touch, protocol, absX, absY);
 
-		}  
- 
+		}
+
 	}
 
-	
+
 	public static void sendVirtual(int t , int c, int v){
 		sendVirtualEvent( t, c, v);
 	}
@@ -156,7 +158,7 @@ public class Events {
 
 	/**
 	 * Scans and returns the list of all internal devices
-	 * 
+	 *
 	 * @return ArrayList<InputDevice> - list of internal devices
 	 */
 	public ArrayList<InputDevice> Init() {
@@ -164,16 +166,18 @@ public class Events {
 		// m_Devs.clear();
 
 		int n = ScanFiles(); // return number of devs
- 
+ 		boolean rooted=false;
 		for (int i = 0; i < n; i++) {
 
 			m_Devs.add(new InputDevice(i, getDevPath(i)));
-
-			m_Devs.get(i).Open(true);
-
+			if(m_Devs.get(i).Open(true))
+				rooted= true;
 		}
 
-		return m_Devs;
+		if(rooted)
+		    return m_Devs;
+		else
+            return new ArrayList<InputDevice>();
 	}
 
 	// JNI native code interface
@@ -209,7 +213,7 @@ public class Events {
 	private native static int sendVirtualEvent( int type, int code,
 			int value);
 
-	static { 
+	static {
 		System.loadLibrary("EventInjector");
 	}
 

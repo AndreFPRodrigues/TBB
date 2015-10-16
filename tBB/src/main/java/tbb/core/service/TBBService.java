@@ -1,6 +1,7 @@
 package tbb.core.service;
 
 import blackbox.external.logger.DataWriter;
+import blackbox.tinyblackbox.R;
 import tbb.core.CoreController;
 import tbb.core.ioManager.Monitor;
 import tbb.core.logger.MessageLogger;
@@ -224,7 +225,8 @@ public class TBBService extends AccessibilityService {
 		// initialise monitor
 		// TODO remove dependency of Monitor by initializing it in
 		// CoreController
-		mMonitor = new Monitor(-1);
+		boolean ioLogging = mSharedPref.getBoolean(this.getString(R.string.BB_PREFERENCE_LOGIO),false);
+		mMonitor = new Monitor(-1,ioLogging);
 
 		// initialise coreController
 		CoreController.sharedInstance().initialize(mMonitor, this);
@@ -400,8 +402,9 @@ public class TBBService extends AccessibilityService {
 	public static void writeToErrorLog(String message) {
 		ArrayList<String> data = new ArrayList<String>();
 		data.add(message);
-		DataWriter dw = new DataWriter(data, STORAGE_FOLDER, STORAGE_FOLDER
-				+ "/" + ERROR_FILE, true, true);
+		DataWriter dw = new DataWriter(STORAGE_FOLDER, STORAGE_FOLDER
+				+ "/" + ERROR_FILE, true);
+		dw.execute(data.toArray(new String[data.size()]));
 	}
 
 	/**
