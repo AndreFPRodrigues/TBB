@@ -28,12 +28,26 @@
     <string name="tpr">Touch recognizer</string>
     <string name="set_tpr">Select the proper Touch recognizer module</string>
     <string name="title_activity_run_macro">RunMacro</string>
-    <string name="BB.PREFERENCE.TOUCH_RECOGNIZER">BB.PREFERENCE.TOUCH_RECOGNIZER</string>
-    <string name="BB.PREFERENCE.LOGGING">BB.PREFERENCE.LOGGING</string>
+
+
+   <!--PREFERENCE STRINGS-->
+   <string name="BB.PREFERENCE.TOUCH_RECOGNIZER">BB.PREFERENCE.TOUCH_RECOGNIZER</string>
+   <string name="BB.PREFERENCE.LOGGING">BB.PREFERENCE.LOGGING</string>
    <string name="BB.PREFERENCE.FLAG_RESEARCHER_SESSION">BB.PREFERENCE.FLAG_RESEARCHER_SESSION</string>
-    <string name="BB.PREFERENCE.FORCE_ENCRYPT">BB.PREFERENCE.FORCE_ENCRYPT</string>
-    <string name="BB.PREFERENCE.FORCE_SYNC">BB.PREFERENCE.FORCE_SYNC</string>
-    <string name="PREF_SEQUENCE_NUMBER">BB.STORAGECOORDINATOR.PREFERENCE.SEQUENCE_NUMBER</string>
+   <string name="BB.PREFERENCE.FORCE_ENCRYPT">BB.PREFERENCE.FORCE_ENCRYPT</string>
+   <string name="BB.PREFERENCE.FORCE_SYNC">BB.PREFERENCE.FORCE_SYNC</string>
+   <string name="PREF_SEQUENCE_NUMBER">BB.STORAGECOORDINATOR.PREFERENCE.SEQUENCE_NUMBER</string>
    <string name="BB.PREFERENCE.LOGIO">BB.PREFERENCE.LOGIO</string>
+   <string name="BB.PREFERENCE.ENCRYPTION_LEVEL">BB.PREFERENCE.ENCRYPTION_LEVEL</string>
+    <string name="summary_encryption_level">Set the data encryption level</string>
+    <string name="title_encryption_level">Encryption Level</string>
+    <string name="BB.PREFERENCE.APP_PERMISSIONS">BB.PREFERENCE.APP_PERMISSIONS</string>
+    <string name="title_app_permissions">Enable/Disable App Logging</string>
+
+
+    <string name="pause_one_hour">Pause for 1 hour</string>
+    <string name="notification_active">Active: Logging Data</string>
+    <string name="PermissionsFileName">APP_PERMISSIONS</string>
+    <string name="ConfigurationFolder">_config</string>
 
 </resources>

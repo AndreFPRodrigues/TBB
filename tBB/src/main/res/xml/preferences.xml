@@ -29,6 +29,20 @@
             android:summary="@string/logIOTitle"
             android:dependency="@string/BB.PREFERENCE.LOGGING"
             android:title="@string/logIO" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/encryptionLevelNames"
+            android:entryValues="@array/encryptionLevelValues"
+            android:key="@string/BB.PREFERENCE.ENCRYPTION_LEVEL"
+            android:summary="@string/summary_encryption_level"
+            android:title="@string/title_encryption_level"
+            />
+
+        <Preference
+            android:key="@string/BB.PREFERENCE.APP_PERMISSIONS"
+            android:title="@string/title_app_permissions"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:key="researcher_controls"
@@ -40,10 +54,10 @@
             android:title="Researcher Session"/>
         <Preference
             android:key="@string/BB.PREFERENCE.FORCE_ENCRYPT"
-            android:title="Encrypt files"></Preference>
+            android:title="Encrypt files"/>
         <Preference
             android:key="@string/BB.PREFERENCE.FORCE_SYNC"
-            android:title="Synchronise Now"></Preference>
+            android:title="Synchronise Now"/>
         </PreferenceCategory>
 
 </PreferenceScreen>

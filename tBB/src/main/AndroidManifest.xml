@@ -53,6 +53,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="tbb.core.service.configuration.AppPermissionListActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name="tbb.core.logger.StorageCoordinator"
             android:enabled="true" >
