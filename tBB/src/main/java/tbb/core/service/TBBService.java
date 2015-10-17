@@ -1,27 +1,19 @@
 package tbb.core.service;
 
-import blackbox.external.logger.DataWriter;
-import blackbox.tinyblackbox.R;
-import tbb.core.CoreController;
-import tbb.core.ioManager.Monitor;
-import tbb.core.logger.MessageLogger;
-import tbb.touch.TPRNexusS;
-import tbb.touch.TPRTab2;
-
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.annotation.TargetApi;
-
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Toast;
@@ -29,6 +21,14 @@ import android.widget.Toast;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+
+import blackbox.external.logger.DataWriter;
+import blackbox.tinyblackbox.R;
+import tbb.core.CoreController;
+import tbb.core.ioManager.Monitor;
+import tbb.core.logger.MessageLogger;
+import tbb.touch.TPRNexusS;
+import tbb.touch.TPRTab2;
 
 /**
  * TinyBlackBoxService
@@ -143,6 +143,7 @@ public class TBBService extends AccessibilityService {
 
 			// initializes all modules of TBB service
 			initializeModules();
+			createNotification();
 
 		} catch (Exception e) {
 			Toast.makeText(getApplicationContext(), "TBB Exception",
@@ -182,12 +183,15 @@ public class TBBService extends AccessibilityService {
 			MessageLogger.sharedInstance().writeAsync("TBB Service destroyed");
 			MessageLogger.sharedInstance().onFlush();
 			stopService();
+			destroyNotification();
 		} catch (Exception e) {
 			Toast.makeText(getApplicationContext(), "TBB Exception",
 					Toast.LENGTH_LONG).show();
 			writeToErrorLog(e);
 		}
 	}
+
+
 
 	/*
 	 * Stops CoreController, which stops all TBB modules, and stops listening
@@ -199,6 +203,7 @@ public class TBBService extends AccessibilityService {
 		Log.v("IMPORTANT", "Monitor has been stopped");
 		mMonitor.stop();
 		this.stopSelf();
+		destroyNotification();
 	}
 
 	public void stopRequest() {
@@ -441,5 +446,20 @@ public class TBBService extends AccessibilityService {
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		writeToErrorLog(System.currentTimeMillis() + " \n" + sw.toString());
+	}
+
+
+	private int mID = 1;
+	private void createNotification(){
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setContentTitle(getString(R.string.app_name)).setContentText(getString(R.string.notification_active)).setSmallIcon(android.R.drawable.ic_dialog_info).setOngoing(true)
+				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC).setCategory(NotificationCompat.CATEGORY_SERVICE);//.addAction(android.R.drawable.ic_media_pause,getString(R.string.pause_one_hour),null);
+		Notification not = mBuilder.build();
+		NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.notify(mID, not);
+	}
+
+	private void destroyNotification(){
+		NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel(mID);
 	}
 }
