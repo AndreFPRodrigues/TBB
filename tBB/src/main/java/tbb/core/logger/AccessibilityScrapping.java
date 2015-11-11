@@ -8,6 +8,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.util.Log;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 class AccessibilityScrapping {
@@ -50,7 +51,7 @@ class AccessibilityScrapping {
 		return current;
 	}
 
-	static String getChildren(AccessibilityNodeInfo node, int childLevel) {
+	/*static String getChildren(AccessibilityNodeInfo node, int childLevel) {
 		StringBuilder sb = new StringBuilder();
 		if (node.getChildCount() > 0) {
 			sb.append("{");
@@ -69,12 +70,12 @@ class AccessibilityScrapping {
 		}
 
 		return sb.toString();
-	}
+	}*/
 
 	static   String cleanText(String text) {
 		String  result = text.replaceAll("\""," ");
 		result = result.replaceAll("\'"," ");
-		result = result.replaceAll("[\r\n]"," ");
+		result = result.replaceAll("[\r\n]","\\n");
 		result = result.substring(0, Math.min(result.length(), THRESHOLD));
 		return result;
 	}
@@ -133,7 +134,7 @@ class AccessibilityScrapping {
 		return text;
 	}
 
-	static String getDescription(AccessibilityNodeInfo n) {
+	/*static String getDescription(AccessibilityNodeInfo n) {
 
 		// if (n.getText() != null)
 		// return hashIt(n) + "," + n.getText();
@@ -172,6 +173,14 @@ class AccessibilityScrapping {
 		 * unhandled[i]; }
 		 */
 		// Log.d("gcm", "TExt : " +allText);
-		return hashIt(n) + "!_!" + allText;
+	/*	return hashIt(n) + "!_!" + allText;
+	}*/
+
+	public static String getEventText(AccessibilityEvent event){
+		String step="";
+		for (CharSequence cs : event.getText()) {
+			step += cs + ";";
+		}
+		return cleanText(step);
 	}
 }

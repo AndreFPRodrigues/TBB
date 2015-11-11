@@ -60,7 +60,7 @@ public class TBBPreferencesActivity extends PreferenceActivity {
                 if(preference.getKey().equals(getResources().getString(R.string.BB_PREFERENCE_FLAG_RESEARCHER_SESSION))) {
                     boolean checked = Boolean.valueOf(o.toString());
                     String state = (checked)?"started":"ended";
-                    String data = "Message:{type:study,timestamp:" + System.currentTimeMillis() + ",data:{text:researcher session, state:"+state+"}}";
+                    String data = "{\"type\":\"study\",\"timestamp\":" + System.currentTimeMillis() + ",\"data\":{\"text\":\"researcher session\", \"state\":\""+state+"\"}}";
                     MessageLogger.sharedInstance().writeAsync(data);
                     MessageLogger.sharedInstance().onFlush();
                     return true;

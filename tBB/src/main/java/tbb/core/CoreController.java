@@ -180,12 +180,11 @@ public class CoreController {
 	/**
 	 * IO event propagated to IOReceivers
 	 */
-	public void updateIOReceivers(int device, int type, int code, int value, int timestamp) {
+	public void updateIOReceivers(int device, int type, int code, int value, int timestamp, long sysTime) {
 
         if(mIOEventReceivers == null) return;
         for(IOEventReceiver receiver: mIOEventReceivers){
-            receiver.onUpdateIOEvent(device, type, code, value,
-					timestamp);
+            receiver.onUpdateIOEvent(device, type, code, value,timestamp, sysTime);
         }
 	}
 

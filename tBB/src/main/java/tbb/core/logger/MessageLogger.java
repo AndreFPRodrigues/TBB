@@ -27,6 +27,14 @@ public class MessageLogger extends Logger {
 
     }
 
+    @Override
+    public void writeAsync(String data){
+        mData.add("{\"message\":"+data + "},");
+        //Log.v(BaseLogger.TAG, SUBTAG + "mData size:"+mData.size());
+        if(mData.size() >= mFlushThreshold)
+            onFlush();
+    }
+
     /**
      * Make a request to TBB for the current sequence folder location.
      */

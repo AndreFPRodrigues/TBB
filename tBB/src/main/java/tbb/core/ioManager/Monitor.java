@@ -119,6 +119,8 @@ public class Monitor {
 		if(monitoring==null || index>monitoring.length){
 			return ;
 		}
+		Log.d(TBBService.TAG, "index device " +index);
+
 		if (state != monitoring[index]) {
 			monitoring[index] = state;
 			if (monitoring[index]) {
@@ -143,7 +145,7 @@ public class Monitor {
 //								 " "
 //								 + timestamp);
                                     CoreController.sharedInstance().updateIOReceivers(index, type,
-                                            code, value, timestamp);
+                                            code, value, timestamp, System.currentTimeMillis());
 
                                 }
                             }
@@ -227,6 +229,7 @@ public class Monitor {
             if(devices == null || devices.length < 1)
                 return -1;
 			for (int i = 0; i < devices.length; i++) {
+				Log.d(TBBService.TAG, "device " +devices[i] + " " + i);
 				if (devices[i] != null && devices[i].contains("touchscreen")){
 					monitorDevice(i, state);
 					return i;

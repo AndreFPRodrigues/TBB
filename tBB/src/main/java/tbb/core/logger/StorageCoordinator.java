@@ -71,6 +71,13 @@ public class StorageCoordinator extends BroadcastReceiver {
 				
 				Log.v(TBBService.TAG, SUBTAG + "screen OFF");
 
+				//Logs first screen off
+				if(!TBBService.isRunning){
+					MessageLogger.sharedInstance().writeAsync("\"TBB Service init\"");
+					MessageLogger.sharedInstance().onFlush();
+					TBBService.isRunning=true;
+				}
+
 				// ANNOUNCE THE FOLDER AND SEQUENCE
 				Intent intentFlush = new Intent();
 				intentFlush.setAction(BaseLogger.ACTION_FLUSH);
@@ -87,12 +94,7 @@ public class StorageCoordinator extends BroadcastReceiver {
 				/*CloudStorage.sharedInstance().cloudSync(
 						TBBService.STORAGE_FOLDER, mSequence, false);*/
 				
-				//Logs first screen off
-				if(!TBBService.isRunning){					
-					MessageLogger.sharedInstance().writeAsync("TBB Service init");
-					MessageLogger.sharedInstance().onFlush();
-					TBBService.isRunning=true;
-				}
+
 
 			} else if (intent.getAction()
 					.equals(BaseLogger.ACTION_SEND_REQUEST)) {

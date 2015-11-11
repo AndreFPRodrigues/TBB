@@ -4,6 +4,7 @@ import blackbox.external.logger.DataWriter;
 import blackbox.tinyblackbox.R;
 import tbb.core.CoreController;
 import tbb.core.ioManager.Monitor;
+import tbb.core.logger.KeystrokeLogger;
 import tbb.core.logger.MessageLogger;
 import tbb.touch.TPRNexusS;
 import tbb.touch.TPRTab2;
@@ -296,7 +297,11 @@ public class TBBService extends AccessibilityService {
 			// TODO hardcorded "TEXT"
 			if (AccessibilityEvent.eventTypeToString(eventType)
 					.contains("TEXT")) {
+				int maxSize= KeystrokeLogger.TEXT_SIZE_THRESHOLD;
 				String text = event.getText().toString();
+				if(maxSize<text.length()){
+					text=text.substring(0,maxSize);
+				}
 				if (mLogAtTouch && !event.isPassword()) {
 					// TODO ??
 					if (event.getRemovedCount() > event.getAddedCount()) {

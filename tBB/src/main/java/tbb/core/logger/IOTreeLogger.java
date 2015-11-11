@@ -67,14 +67,14 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 		mTPR = CoreController.sharedInstance().getActiveTPR();
 		mTouchDevice = CoreController.sharedInstance().monitorTouch(true);
 
-		mDevSpecialKeys = 8;
+		/*mDevSpecialKeys = 8;
 		mDevHomeAndVolume = 7;
 
 		// monitor devices
 		CoreController.sharedInstance().commandIO(CoreController.MONITOR_DEV,
 				mDevSpecialKeys, true);
 		CoreController.sharedInstance().commandIO(CoreController.MONITOR_DEV,
-				mDevHomeAndVolume, true);
+				mDevHomeAndVolume, true);*/
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 			return;
 		}
 
-		String result = AccessibilityScrapping.getChildren(parent, 0);
+		//String result = AccessibilityScrapping.getChildren(parent, 0);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(event.getEventType() + "!_!"
@@ -199,16 +199,16 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 				+ "\n");
 		sb.append(src.toString() + "\n");
 
-		if (result.hashCode() != lastRead || lastRead == -1) {
+		Tree current = new Tree(AccessibilityEvent.eventTypeToString(event.getEventType()),
+				AccessibilityScrapping.getEventText(event),
+				System.currentTimeMillis(),  AccessibilityScrapping
+				.getCurrentActivityName(CoreController.sharedInstance()
+						.getTBBService()), id);
+		current.setTreeStructure(parent);
+		if (current.toString().hashCode() != lastRead || lastRead == -1) {
 			id++;
-			sb.append(parent.getClassName() + "\n");
-			sb.append(AccessibilityScrapping
-					.getCurrentActivityName(CoreController.sharedInstance()
-							.getTBBService())
-					+ "\n");
-			sb.append((id) + "\n");
-			sb.append("{" + AccessibilityScrapping.getDescription(parent)
-					+ result + "\n}");
+			/*sb.append("{" + AccessibilityScrapping.getDescription(parent)
+					+ result + "\n}");*/
 
 			// TODO wtf is this?
 			if (!isAdding) {
@@ -222,28 +222,27 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 				}, 200);
 			}
 			// TODO should we move this to above the isAdding.
-			mTreeData = sb.toString();
-			lastRead = result.hashCode();
+			mTreeData =current.toString() ;
+
+
+			lastRead = current.toString().hashCode();
 		}
 	}
+
 
 	private void interactionLog(AccessibilityEvent event) {
 		AccessibilityNodeInfo source = event.getSource();
 		String eventType = AccessibilityEvent.eventTypeToString(event.getEventType());
 		String app = event.getPackageName().toString();
-		String step = "";
-
-		for (CharSequence cs : event.getText()) {
-			step += cs + ";";
-		}
-		step = AccessibilityScrapping.cleanText(step);
+		String step = AccessibilityScrapping.getEventText(event);
 
 		source = event.getSource();
 		if (source == null) {
-			writeInteractionAsync("{\"desc\":\"" + step + "\"" +
+			writeInteractionAsync("{\"treeID\":"+ id +
+					" , \"desc\":\"" + step + "\"" +
 					" , \"timestamp\":" + System.currentTimeMillis() +
-					" , \"package\":\"" + app +
-					" , \"type\":" + eventType +
+					" , \"package\":\"" + app + "\"" +
+					" , \"type\":\"" + eventType +
 					"\" },");
 			return;
 		}
@@ -252,10 +251,11 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 		if (step.length() < 1) {
 			step = sourceText;
 		}
-		writeInteractionAsync("{\"desc\":\"" + step + "\""+
+		writeInteractionAsync("{\"treeID\":"+ id +
+				" , \"desc\":\"" + step + "\"" +
 				" , \"timestamp\":" + System.currentTimeMillis() +
-				" , \"app\":\"" + app+
-				" , \"type\":" + eventType + "\" },");
+				" , \"app\":\"" + app + "\"" +
+				" , \"type\":\"" + eventType + "\" },");
 
 	}
 
@@ -299,7 +299,7 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 	@Override
 	public void onUpdateIOEvent(int device, int type, int code, int value,
-			int timestamp) {
+			int timestamp, long sysTime) {
 
 		if (mTouchDevice == device) {
 			int touchType;
@@ -308,15 +308,29 @@ public class IOTreeLogger extends Logger implements AccessibilityEventReceiver,
 
 				TouchEvent te = mTPR.getlastTouch();
 				mTimestamp = timestamp;
-				writeIOAsync(id + "," + device + "," + touchType + ","
-						+ te.getIdentifier() + "," + te.getX() + ","
-						+ te.getY() + "," + te.getPressure() + ","
-						+ te.getTime());
+				String json = "{\"treeID\":"+ id +
+						" , \"dev\":" + device+
+						" , \"type\":" + touchType +
+						" , \"id\":" + te.getIdentifier() +
+						" , \"x\":" + te.getX()+
+						" , \"y\":" + te.getY() +
+						" , \"pressure\":" + te.getPressure() +
+						" , \"devTime\":" + te.getTime() +
+						" , \"timestamp\":" + sysTime +
+						"},";
+				writeIOAsync(json);
 			}
 		} else {
 			if (type != 0) {
-				writeIOAsync(id + "," + device + "," + type + "," + code + ","
-						+ value + "," + timestamp);
+				String json = "{\"treeID\":"+ id +
+						" , \"dev\":" + device+
+						" , \"type\":" + type +
+						" , \"code\":" + code +
+						" , \"value\":" +value+
+						" , \"devTime\":" + timestamp +
+						" , \"timestamp\":" + sysTime +
+						"},";
+				writeIOAsync(json);
 			}
 		}
 	}

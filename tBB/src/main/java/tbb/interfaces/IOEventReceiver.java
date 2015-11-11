@@ -12,7 +12,7 @@ public interface IOEventReceiver {
 	 * @param timestamp
 	 */
 	public abstract void onUpdateIOEvent(int device, int type, int code, int value,
-                                         int timestamp);
+                                         int timestamp, long systTime);
 
 	public abstract void onTouchReceived(int type);
 }

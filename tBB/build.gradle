@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "blackbox.tinyblackbox"
-        minSdkVersion 18
+        minSdkVersion 15
         targetSdkVersion 22
 
         /*ndk {
