@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -16,70 +17,65 @@ import java.util.ArrayList;
  * Writes data to log file
  */
 
-public class DataWriter extends AsyncTask<Void, Void, String> {
+public class DataWriter extends AsyncTask<String, Void, String> {
 
 	private final static String SUBTAG = "DataWriter: ";
 
-	private ArrayList<String> mData;
 	private String mFilePath;
 	private String mFolderPath;
-	private boolean mIsSyncWriting;
 	private File rename;
 	private boolean toAppend;
 	private final String mJsonHeader="{\"records\":[";
 	private final String mJsonEnd="{}]}";
 
-	public DataWriter(ArrayList<String> data, String folderPath,
-			String filePath, boolean sync, boolean toAppend) {
-		mData = data;
+	public DataWriter(String folderPath, String filePath, boolean toAppend) {
 		mFilePath = filePath;
 		mFolderPath = folderPath;
-		mIsSyncWriting = sync;
 		rename = null;
 		this.toAppend = toAppend;
-
-		if (mIsSyncWriting) {
-
-			if (mData != null && !mData.isEmpty()) {
-
-				// creates file
-				writeFile(toAppend);
-			}
-		}
 	}
 
-	public DataWriter(ArrayList<String> data, String folderPath,
-			String filePath, boolean sync, boolean toAppend,
-			File renamePostExecute) {
-		mData = data;
+	public DataWriter(String folderPath, String filePath, boolean toAppend, File renamePostExecute) {
 		mFilePath = filePath;
 		mFolderPath = folderPath;
-		mIsSyncWriting = sync;
 		rename = renamePostExecute;
 		this.toAppend = toAppend;
+	}
 
-		if (mIsSyncWriting) {
+	@Override
+	protected String doInBackground(String... data) {
 
-			if (mData != null && !mData.isEmpty()) {
+		if (data != null && data.length > 0) {
 
-				// creates file
-				writeFile(toAppend);
-			}
+			// creates file
+			writeFile(data, toAppend);
+		}
+
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(String result) {
+		if (rename != null) {
+			File file = new File(mFilePath);
+			file.renameTo(rename);
+			Log.v(BaseLogger.TAG, SUBTAG + "Successfully renamed");
 		}
 	}
 
-	private void writeFile(boolean toAppend) {
+	private void writeFile(String[] data, boolean toAppend) {
 		if (mFolderPath != null && !mFolderPath.isEmpty() && mFilePath!=null) {
 			// creates folder
 			File folder = new File(mFolderPath);
 			if (!folder.exists()) {
 				folder.mkdirs();
 			}
-
+			
 			File file = new File(mFilePath);
+			String header="";
 			//if file does not exist add json header
 			if(!file.exists()){
-				mData.add(0, mJsonHeader);
+				header =mJsonHeader;
 			}else{//if file exists remove closing header
 				deleteLastLine(file);
 			}
@@ -88,16 +84,16 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 
 			try {
 				fw = new FileWriter(file, toAppend);
-				for (String line : mData) {
+				fw.write(mJsonHeader);
+				for (String line : data) {
 					fw.write(line + "\n");
 				}
 				fw.write(mJsonEnd);
 				fw.flush();
 				fw.close();
-				Log.v(BaseLogger.TAG, SUBTAG + mData.size()
+				Log.v(BaseLogger.TAG, SUBTAG + data.length
 						+ " Data write ok: " + file.getAbsolutePath()
 						+ " toAppend: " + toAppend);
-				mData = new ArrayList<String>();
 
 			} catch (IOException e) {
 				Log.v(BaseLogger.TAG,
@@ -107,19 +103,7 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 		}
 	}
 
-	@Override
-	protected String doInBackground(Void... params) {
-		if (mIsSyncWriting)
-			return null;
-
-		if (mData != null && !mData.isEmpty()) {
-
-			// creates file
-			writeFile(toAppend);
-		}
-
-		return null;
-	}
+	
 
 	private void deleteLastLine(File fileName){
 		RandomAccessFile f = null;
@@ -142,13 +126,5 @@ public class DataWriter extends AsyncTask<Void, Void, String> {
 
 	}
 
-	@Override
-	protected void onPostExecute(String result) {
-		if (rename != null) {
-			File file = new File(mFilePath);
-			file.renameTo(rename);
-			Log.v(BaseLogger.TAG, SUBTAG + "Successfully renamed");
 
-		}
-	}
 }
