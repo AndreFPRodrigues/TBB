@@ -21,7 +21,7 @@ import blackbox.tinyblackbox.R;
  */
 public class DataPermissions {
 
-    enum type{
+    public enum type{
         DO_NOT_LOG,
         ENCRYPT_ALL,
         ENCRYPT_SENSITIVE,

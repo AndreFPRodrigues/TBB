@@ -8,5 +8,5 @@ public interface KeystrokeEventReceiver {
     /**
      * Receives keystroke event
      */
-    public abstract void onKeystroke(String keystroke);
+    public abstract void onKeystroke(String keystroke, long timestamp, String text);
 }

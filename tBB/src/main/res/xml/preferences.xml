@@ -41,6 +41,7 @@
 
         <Preference
             android:key="@string/BB.PREFERENCE.APP_PERMISSIONS"
+            android:enabled="false"
             android:title="@string/title_app_permissions"/>
 
     </PreferenceCategory>
@@ -57,7 +58,8 @@
             android:title="Encrypt files"/>
         <Preference
             android:key="@string/BB.PREFERENCE.FORCE_SYNC"
-            android:title="Synchronise Now"/>
+            android:title="Synchronise Now"
+            android:enabled="false"/>
         </PreferenceCategory>
 
 </PreferenceScreen>

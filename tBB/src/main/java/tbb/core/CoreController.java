@@ -155,11 +155,11 @@ public class CoreController {
     /**
      * Keystrokes propagated to mKeystrokeEventReceiver
      */
-    public void updateKeystrokeEventReceivers(String keystroke) {
+    public void updateKeystrokeEventReceivers(String keystroke, long timestamp, String text) {
 
         if(mKeystrokeEventReceiver == null) return;
         for(KeystrokeLogger receiver: mKeystrokeEventReceiver){
-            receiver.onKeystroke(keystroke);
+            receiver.onKeystroke(keystroke, timestamp, text);
         }
 	}
 
@@ -180,12 +180,11 @@ public class CoreController {
 	/**
 	 * IO event propagated to IOReceivers
 	 */
-	public void updateIOReceivers(int device, int type, int code, int value, int timestamp) {
+	public void updateIOReceivers(int device, int type, int code, int value, int timestamp, long sysTime) {
 
         if(mIOEventReceivers == null) return;
         for(IOEventReceiver receiver: mIOEventReceivers){
-            receiver.onUpdateIOEvent(device, type, code, value,
-					timestamp);
+            receiver.onUpdateIOEvent(device, type, code, value,timestamp, sysTime);
         }
 	}
 
