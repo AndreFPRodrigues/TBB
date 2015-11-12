@@ -27,6 +27,7 @@ public class DataWriter extends AsyncTask<String, Void, String> {
 	private boolean toAppend;
 	private final String mJsonHeader="{\"records\":[";
 	private final String mJsonEnd="{}]}";
+	private boolean headers=true;
 
 	public DataWriter(String folderPath, String filePath, boolean toAppend) {
 		mFilePath = filePath;
@@ -40,6 +41,14 @@ public class DataWriter extends AsyncTask<String, Void, String> {
 		mFolderPath = folderPath;
 		rename = renamePostExecute;
 		this.toAppend = toAppend;
+	}
+
+	public DataWriter(String folderPath, String filePath, boolean toAppend, File renamePostExecute, boolean headers) {
+		mFilePath = filePath;
+		mFolderPath = folderPath;
+		rename = renamePostExecute;
+		this.toAppend = toAppend;
+		this.headers=headers;
 	}
 
 	@Override
@@ -74,7 +83,7 @@ public class DataWriter extends AsyncTask<String, Void, String> {
 			File file = new File(mFilePath);
 			String header="";
 			//if file does not exist add json header
-			if(!file.exists()){
+			if(!file.exists()&&headers){
 				header =mJsonHeader;
 			}else{//if file exists remove closing header
 				deleteLastLine(file);
@@ -84,11 +93,17 @@ public class DataWriter extends AsyncTask<String, Void, String> {
 
 			try {
 				fw = new FileWriter(file, toAppend);
-				fw.write(mJsonHeader);
+				if(headers)
+					fw.write(mJsonHeader);
+				Log.v(BaseLogger.TAG, SUBTAG + mJsonHeader);
+
 				for (String line : data) {
+					Log.v(BaseLogger.TAG, SUBTAG + line);
 					fw.write(line + "\n");
 				}
-				fw.write(mJsonEnd);
+				if(headers)
+					fw.write(mJsonEnd);
+
 				fw.flush();
 				fw.close();
 				Log.v(BaseLogger.TAG, SUBTAG + data.length

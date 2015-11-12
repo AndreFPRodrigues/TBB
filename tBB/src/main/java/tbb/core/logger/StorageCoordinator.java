@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import java.io.File;
 import blackbox.external.logger.BaseLogger;
 import tbb.core.CoreController;
 import tbb.core.service.TBBService;
+import tbb.core.service.configuration.DataPermissions;
 
 /**
  * Created by kyle montague on 10/11/2014.
@@ -86,9 +88,11 @@ public class StorageCoordinator extends BroadcastReceiver {
 				// TODO TESTING THIS.
 				CoreController.sharedInstance().stopServiceNoBroadCast();
 
-				// encrypt all descriptions and text while charging and screen
-				// off or if it has passed 3 days and battery at 90+%
-				Encryption.sharedInstance().encryptFolders(isCharging,context, mSequence);
+				if(DataPermissions.getSharedInstance(context).loggingMode()!=DataPermissions.type.DO_NOT_LOG) {
+					// encrypt all descriptions and text while charging and screen
+					// off or if it has passed 3 days and battery at 90+%
+					Encryption.sharedInstance().encryptFolders(isCharging, context, mSequence);
+				}
 
 				// Tell the cloud storage to sync
 				/*CloudStorage.sharedInstance().cloudSync(

@@ -91,7 +91,7 @@ public class Logger implements BaseLogger{
         //Log.v(BaseLogger.TAG, SUBTAG + "SetFIleInfo: "+path);
         mFolderName = path+"/"+mName;
         mSequence = sequence;
-        mFilename = mFolderName+"/"+mSequence+"_"+mName+".txt";
+        mFilename = mFolderName+"/"+mSequence+"_"+mName+".json";
     }
 
     private void flush(){

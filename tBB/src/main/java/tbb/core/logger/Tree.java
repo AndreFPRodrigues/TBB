@@ -90,19 +90,21 @@ public class Tree {
             sb.append("\"children\": [");
             for (int i = 0; i < node.getChildCount(); i++) {
                 //sb.append("{");
+                AccessibilityNodeInfo child= node.getChild(i);
 
-                if (node.getChild(i) != null) {
+                if (child != null) {
                     if (i > 0)
                         sb.append(",");
-                    sb.append(getDescription(node.getChild(i)));
+                    sb.append(getDescription(child));
 
-                    if (node.getChild(i).getChildCount() > 0 && node.getChild(i)!=null)
-                        sb.append(","+ getChildren(node.getChild(i), childLevel + 1));
+                    if ( child.getChildCount() > 0 )
+                        sb.append(","+ getChildren(child, childLevel + 1));
                     else{
                         sb.append( ", \"children\":[]");
                     }
+                    sb.append("}" );
+
                 }
-                sb.append("}" );
 
             }
 
@@ -141,9 +143,8 @@ public class Tree {
                 " , \"text\":\"" +AccessibilityScrapping.cleanText(node.getText()+"")+"\"" +
                 " , \"content\":\"" +AccessibilityScrapping.cleanText(node.getContentDescription()+"") + "\"" +
                 getStates(node) +
-                ", \"actions\":\"" + actionList +"\" " ;  /*+
-             ", \"children\":\"" + getChildren(node,)+
-                "\"}";*/
+                ", \"actions\":\"" + actionList +"\" " ;
+
         return result;
     }
      @Override
@@ -153,6 +154,7 @@ public class Tree {
                  " , \"eventDesc\":\"" + eventDescription + "\"" +
                  " , \"timestamp\":" + timestamp +
                  " , \"activity\":\"" + activity + "\"" +
+                 " , \"encripted\":" + false  +
                  " , \"tree\":"+ treeStructure +
                  " },";
      }

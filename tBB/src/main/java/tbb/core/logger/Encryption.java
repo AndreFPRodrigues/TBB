@@ -25,6 +25,11 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.text.format.Time;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import blackbox.external.logger.DataWriter;
 
 import tbb.core.service.TBBService;
@@ -39,7 +44,7 @@ public class Encryption {
 	private static Encryption mSharedInstance = null;
 	private final static String SUBTAG = "Encrypt: ";
 
-	private String key = "isTheStraightLin";
+	private String key = "keytobegenerated";
 	private long mLastEnc = 0;
 	private final static long ENCRYPT_THRESHOLD = 1000 * 60 * 60 * 24 * 3; // every
 																			// 3days
@@ -55,6 +60,7 @@ public class Encryption {
 		mLastEnc = 0;
 	}
 
+	//todo proper encryption
 	public byte[] encrypt(String value) throws GeneralSecurityException {
 
 		byte[] raw = key.getBytes(Charset.forName("US-ASCII"));
@@ -122,26 +128,31 @@ public class Encryption {
 								if (curSequence < (sequence - 1)) {
 									// TODO sequence - 2 folder can still be being written?
 									File tree = new File(treeFolder
-											+ curSequence + "_Tree.txt");
+											+ curSequence + "_Tree.json");
 									File treeEnc = new File(treeFolder
-											+ curSequence + "_Tree_E.txt");
+											+ curSequence + "_Tree_E.json");
 									File keyStrokes = new File(keystrokesFolder
-											+ curSequence + "_KeyStrokes.txt");
+											+ curSequence + "_KeyStrokes.json");
 									File keyStrokesEnc = new File(
 											keystrokesFolder + curSequence
-													+ "_KeyStrokes_E.txt");
+													+ "_KeyStrokes_E.json");
 									File interaction = new File(treeFolder
-											+ curSequence + "_Interaction.txt");
+											+ curSequence + "_Interaction.json");
 									File interactionEnc = new File(treeFolder
 											+ curSequence
-											+ "_Interaction_E.txt");
+											+ "_Interaction_E.json");
+									/*Log.d(TBBService.TAG, "encrypting:" + keystrokesFolder
+											+ curSequence + "_KeyStrokes.json");*/
 
 									// verify if there is a tree folder to
 									// encrypt
 									if (tree.exists()) {
+										Log.d(TBBService.TAG, "Encrypting tree");
+
 										encryptTreeFile(tree, currentFolder,
 												treeEnc);
 									}
+
 									// verify if there is a keystrokes folder to
 									// encrypt
 									if (keyStrokes.exists()) {
@@ -184,54 +195,56 @@ public class Encryption {
 		return ((float) level / (float) scale) * 100.0f;
 	}
 
+	//Loads json object from file in path
+	public JSONObject loadJSON(String path) {
+		String json = null;
+		try {
+
+			InputStream is = new FileInputStream(path);
+			int size = is.available();
+			byte[] buffer = new byte[size];
+			is.read(buffer);
+			is.close();
+			json = new String(buffer, "UTF-8");
+			return  new JSONObject(json);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
 	// encrypting interaction log
 	// rewrites the interaction file
 	private void encryptInteractionFile(File interaction, String path,
 			File interactionEnc) {
 		try {
-			String toEncrypt;
-			String[] toEncryptArray;
-			ArrayList<String> newInteraction = new ArrayList<String>();
-
-			InputStream inputStream = new FileInputStream(interaction);
-
-			if (inputStream != null) {
-				InputStreamReader inputStreamReader = new InputStreamReader(
-						inputStream);
-				BufferedReader bufferedReader = new BufferedReader(
-						inputStreamReader);
-				while ((toEncrypt = bufferedReader.readLine()) != null) {
-					// delimeter only encrypt text
-					// delimeter only encrypt text
-					toEncryptArray = toEncrypt.split("!_!");
-					if (toEncryptArray.length > 1) {
-						String[] toEnc;
-						if ((toEnc = toEncryptArray[0].split("!*!")).length > 1) {
-							newInteraction
-									.add("* "
-											+ Base64.encodeBase64String(encrypt(toEncryptArray[0]))
-											+ "," + toEncryptArray[1]);
-						} else {
-							newInteraction
-									.add(Base64
-											.encodeBase64String(encrypt(toEncryptArray[0]))
-											+ "," + toEncryptArray[1]);
+				JSONObject intJson = loadJSON(interaction.getPath());
+				//Log.d(TBBService.TAG, "Encrypt 1:" + keystrokesJson.getString("text"));
+				JSONArray intArray = intJson.getJSONArray("records");
+				for (int i = 0; i < intArray.length(); i++) {
+					if (intArray.getJSONObject(i).has("desc")) {
+						String desc = intArray.getJSONObject(i).getString("desc");
+						if (desc.length() > 0) {
+							desc = Base64.encodeBase64String(encrypt(desc));
+							intArray.getJSONObject(i).put("desc", desc);
 						}
 					}
 				}
-				DataWriter w = new DataWriter(path,	interaction.getAbsolutePath(), false,
-						interactionEnc);
-				w.execute(newInteraction.toArray(new String[newInteraction.size()]));
-			}
-			inputStream.close();
+				String jsonString = intJson.toString();
+				String[] arrayString = new String[1];
+				arrayString[0] = jsonString;
+				DataWriter w = new DataWriter(path, interaction.getAbsolutePath(), false,
+						interactionEnc, false);
+				w.execute(jsonString);
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+			}catch (GeneralSecurityException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 
 	}
 
@@ -239,37 +252,36 @@ public class Encryption {
 	// rewrites the keystroke file
 	private void encryptKeyStrokesFile(File keyStrokes, String path,
 			File keyStrokesEnc) {
+
 		try {
-			String toEncrypt;
-			String[] toEncryptArray;
-			ArrayList<String> newKeys = new ArrayList<String>();
-
-			InputStream inputStream = new FileInputStream(keyStrokes);
-
-			if (inputStream != null) {
-				InputStreamReader inputStreamReader = new InputStreamReader(
-						inputStream);
-				BufferedReader bufferedReader = new BufferedReader(
-						inputStreamReader);
-				while ((toEncrypt = bufferedReader.readLine()) != null) {
-					// delimeter only encrypt text
-					toEncryptArray = toEncrypt.split(",");
-					if (toEncryptArray.length > 1) {
-						newKeys.add(Base64
-								.encodeBase64String(encrypt(toEncryptArray[0]))
-								+ "," + toEncryptArray[1]);
+			JSONObject keystrokesJson = loadJSON(keyStrokes.getPath());
+			//Log.d(TBBService.TAG, "Encrypt 1:" + keystrokesJson.getString("text"));
+			JSONArray keyArray = keystrokesJson.getJSONArray("records");
+			for (int i = 0; i < keyArray.length(); i++) {
+				if (keyArray.getJSONObject(i).has("text")) {
+					String text = keyArray.getJSONObject(i).getString("text");
+					String keystroke = keyArray.getJSONObject(i).getString("keystroke");
+					if (text.length() > 0) {
+						text = Base64.encodeBase64String(encrypt(text));
+						keyArray.getJSONObject(i).put("text", text);
+					}
+					if (keystroke.length() > 0) {
+						keystroke = Base64.encodeBase64String(encrypt(keystroke));
+						keyArray.getJSONObject(i).put("keystroke", keystroke);
 					}
 				}
-				DataWriter w = new DataWriter(path, keyStrokes.getAbsolutePath(), false,
-						keyStrokesEnc);
-				w.execute(newKeys.toArray(new String[newKeys.size()]));
-				inputStream.close();
 			}
-		} catch (FileNotFoundException e) {
+			String jsonString = keystrokesJson.toString();
+			String[] arrayString = new String[1];
+			arrayString[0] = jsonString;
+			DataWriter w = new DataWriter(path, keyStrokes.getAbsolutePath(), false,
+					keyStrokesEnc, false);
+			w.execute(jsonString);
+
+
+		}catch (GeneralSecurityException e) {
 			e.printStackTrace();
-		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
@@ -278,7 +290,33 @@ public class Encryption {
 	// nodes in all trees
 	// Rewrites the tree file
 	private void encryptTreeFile(File tree, String path, File treeEnc) {
-		Log.v(TBBService.TAG, SUBTAG + "To encrypt" + path);
+		try {
+			JSONObject treeJson = loadJSON(tree.getPath());
+			Log.d(TBBService.TAG, "Encrypt tree:" + tree.getPath());
+			JSONArray treeArray = treeJson.getJSONArray("records");
+			for (int i = 0; i < treeArray.length(); i++) {
+				if(treeArray.getJSONObject(i).has("tree")) {
+					JSONObject treeObject = treeArray.getJSONObject(i).getJSONObject("tree");
+					treeArray.getJSONObject(i).put("encripted", true);
+					encriptNode(treeObject);
+					encriptChildren(treeObject);
+				}
+			}
+
+			String jsonString = treeJson.toString();
+			String[] arrayString = new String[1];
+			arrayString[0] = jsonString;
+			DataWriter w = new DataWriter(path, tree.getAbsolutePath(), false,
+					treeEnc, false);
+			w.execute(jsonString);
+
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+
+		/*Log.v(TBBService.TAG, SUBTAG + "To encrypt" + path);
 		try {
 			String[] toEncryptArray;
 			ArrayList<String> newTree = new ArrayList<String>();
@@ -312,7 +350,42 @@ public class Encryption {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}*/
+
+	}
+
+	private void encriptChildren(JSONObject parent){
+		try {
+			JSONArray children=parent.getJSONArray("children");
+			for (int i = 0; i < children.length(); i++) {
+				JSONObject child = children.getJSONObject(i);
+				encriptNode(child);
+				encriptChildren(child);
+			}
+			} catch (JSONException e) {
+			e.printStackTrace();
 		}
+	}
+
+	private void encriptNode(JSONObject node) {
+		try {
+			String text = node.getString("text");
+			String content = node.getString("content");
+
+			if (!text.equals("null")) {
+				text = Base64.encodeBase64String(encrypt(text));
+				node.put("text", text);
+			}
+			if (!content.equals("null")) {
+				content = Base64.encodeBase64String(encrypt(content));
+				node.put("content", content);
+			}
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (GeneralSecurityException e1) {
+			e1.printStackTrace();
+		}
+
 
 	}
 
@@ -352,9 +425,9 @@ public class Encryption {
 	public boolean isEncrypted(File sequenceFolder) {
 		int seq = Integer.parseInt(sequenceFolder.getName());
 		File tree = new File(sequenceFolder.getAbsolutePath() + "/Tree/" + seq
-				+ "_Tree.txt");
+				+ "_Tree.json");
 		File keyStrokes = new File(sequenceFolder.getAbsolutePath()
-				+ "/KeyStrokes/" + seq + "_KeyStrokes.txt");
+				+ "/KeyStrokes/" + seq + "_KeyStrokes.json");
 
 		if (tree.exists() || keyStrokes.exists()) {
 			return false;
