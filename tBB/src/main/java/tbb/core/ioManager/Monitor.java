@@ -141,10 +141,10 @@ public class Monitor {
                                     int code = idev.getSuccessfulPollingCode();
                                     int value = idev.getSuccessfulPollingValue();
                                     int timestamp = idev.getTimeStamp();
-//								 Log.d(SUBTAG, type + " " + code + " " + value +
-//								 " "
-//								 + timestamp);
-                                    CoreController.sharedInstance().updateIOReceivers(index, type,
+						//		 Log.d(SUBTAG, type + " " + code + " " + value +
+						//		 " "
+						//		 + timestamp);
+									CoreController.sharedInstance().updateIOReceivers(index, type,
                                             code, value, timestamp, System.currentTimeMillis());
 
                                 }
@@ -230,7 +230,8 @@ public class Monitor {
                 return -1;
 			for (int i = 0; i < devices.length; i++) {
 				Log.d(TBBService.TAG, "device " +devices[i] + " " + i);
-				if (devices[i] != null && devices[i].contains("touchscreen")){
+				if (devices[i] != null && (devices[i].contains("touchscreen")|| devices[i].contains("mxt224_ts_input"))){
+					Log.d(TBBService.TAG, "monitoring device " +devices[i] + " " + i);
 					monitorDevice(i, state);
 					return i;
 				}

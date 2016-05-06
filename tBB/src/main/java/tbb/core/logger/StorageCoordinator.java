@@ -88,7 +88,7 @@ public class StorageCoordinator extends BroadcastReceiver {
 				// TODO TESTING THIS.
 				CoreController.sharedInstance().stopServiceNoBroadCast();
 
-				if(DataPermissions.getSharedInstance(context).loggingMode()!=DataPermissions.type.DO_NOT_LOG) {
+				if(DataPermissions.getSharedInstance(context).loggingMode()!=DataPermissions.type.ENCRYPT_NOTHING) {
 					// encrypt all descriptions and text while charging and screen
 					// off or if it has passed 3 days and battery at 90+%
 					Encryption.sharedInstance().encryptFolders(isCharging, context, mSequence);

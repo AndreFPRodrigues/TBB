@@ -25,8 +25,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="keyboard">Keyboard</string>
     <string name="set_keyboard">Select the active keyboard</string>
-    <string name="tpr">Touch recognizer</string>
-    <string name="set_tpr">Select the proper Touch recognizer module</string>
+    <string name="tpr">Touch Protocol</string>
+    <string name="set_tpr">Select the multi-touch protocol</string>
     <string name="title_activity_run_macro">RunMacro</string>
 
 

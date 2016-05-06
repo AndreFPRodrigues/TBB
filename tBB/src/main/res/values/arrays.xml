@@ -23,13 +23,13 @@
     
     <string-array name="tprMode">
     <item name="1">None</item>
-    <item name="2">input mtx</item>
-    <item name="3">sec touchscreen</item>
+    <item name="2">Type A for older devices, protocol without touch id</item>
+    <item name="3">Type B protocol with touch id</item>
 </string-array>
     <string-array name="tprValues">
         <item name="1">null</item>
-        <item name="2">nexusS</item>
-        <item name="3">tab2</item>
+        <item name="2">protocolA</item>
+        <item name="3">protocolB</item>
     </string-array>
 
     <string-array name="encryptionLevelNames">

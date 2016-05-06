@@ -9,6 +9,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import blackbox.tinyblackbox.R;
@@ -77,6 +78,7 @@ public class TBBPreferencesActivity extends PreferenceActivity {
                         editor.commit();
                         return true;
                 }else if(preference.getKey().equals(getString(R.string.BB_PREFERENCE_ENCRYPTION_LEVEL))) {
+                    Log.d(TBBService.TAG, "Encryption level:" + o.toString());
                     getPreferences(MODE_PRIVATE).edit().putString(getString(R.string.BB_PREFERENCE_ENCRYPTION_LEVEL), o.toString()).commit();
                     DataPermissions.getSharedInstance(getApplicationContext()).updatedPreferences();
                     return true;

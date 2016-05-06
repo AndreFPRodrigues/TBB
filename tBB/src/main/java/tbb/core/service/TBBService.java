@@ -6,8 +6,8 @@ import tbb.core.CoreController;
 import tbb.core.ioManager.Monitor;
 import tbb.core.logger.KeystrokeLogger;
 import tbb.core.logger.MessageLogger;
-import tbb.touch.TPRNexusS;
-import tbb.touch.TPRTab2;
+import tbb.touch.TPR_ProtocolA;
+import tbb.touch.TPR_ProtocolB;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -247,14 +247,14 @@ public class TBBService extends AccessibilityService {
 	 */
 	private boolean configureTouchRecogniser() {
 		String tpr = mSharedPref.getString(PREF_TOUCH_RECOGNIZER, "null");
-		if (tpr.equalsIgnoreCase("nexusS")) {
-			Log.v(TAG, SUBTAG + "nexus");
+		if (tpr.equalsIgnoreCase("protocolB")) {
+			Log.v(TAG, SUBTAG + "protocolB");
 			CoreController.sharedInstance().registerActivateTouch(
-					new TPRNexusS());
-		} else if (tpr.equalsIgnoreCase("tab2")) {
-			Log.v(TAG, SUBTAG + "tab");
+					new TPR_ProtocolB());
+		} else if (tpr.equalsIgnoreCase("protocolA")) {
+			Log.v(TAG, SUBTAG + "protocolA");
 			CoreController.sharedInstance()
-					.registerActivateTouch(new TPRTab2());
+					.registerActivateTouch(new TPR_ProtocolA());
 		} else {
 			Log.v(TAG, SUBTAG + "null");
 			if (tpr.equals("null")) {

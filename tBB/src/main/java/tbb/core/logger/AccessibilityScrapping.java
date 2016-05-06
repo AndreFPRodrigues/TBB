@@ -74,7 +74,8 @@ class AccessibilityScrapping {
 						if (src.getChild(i)!=null && (text = getText(src.getChild(i))) != null) {
 							return  cleanText(text);
 						} else {
-							src.getChild(i).recycle();
+							if (src.getChild(i)!=null)
+								src.getChild(i).recycle();
 						}
 					}
 					src = src.getParent();
@@ -83,7 +84,8 @@ class AccessibilityScrapping {
 						if (src.getChild(i)!=null &&(text = getText(src.getChild(i))) != null) {
 							return cleanText(text);
 						} else {
-							src.getChild(i).recycle();
+							if(src.getChild(i)!=null)
+								src.getChild(i).recycle();
 						}
 					}
 				}
