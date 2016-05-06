@@ -63,7 +63,7 @@ devTime - timestamp collected from the device
 ]}
 ````
 
-####Dom Tree
+####DOM Tree
 ```
 {"records":[
   {"treeID":40 , "eventType":"TYPE_WINDOW_CONTENT_CHANGED" , "eventDesc":"" , "timestamp":1462533653992 , "activity":"com.android.launcher2.Launcher" , "encripted":false , "tree":{"node":"984" , "boundsP":"Rect(0, 0 - 1280, 752)" , "boundsS":"Rect(0, 0 - 1280, 752)" , "package":"com.sec.android.app.launcher" , "package":"com.sec.android.app.launcher" , "class":"com.android.internal.policy.impl.PhoneWindow$DecorView" , "package":"com.sec.android.app.launcher" , "text":"null" , "content":"null" , "enabled":true, "actions":"12" , 
