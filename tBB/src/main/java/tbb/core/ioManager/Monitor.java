@@ -17,6 +17,7 @@ public class Monitor {
 
 	// debugging tag
 	private final String SUBTAG = "Monitor";
+	private static Monitor mSharedInstance = null;
 
 	// List of internal devices (touch, accelerometer)
 	ArrayList<InputDevice> dev;
@@ -26,15 +27,25 @@ public class Monitor {
 	private boolean virtualDriveEnable = false; 
 	private boolean rooted = false;
 	private boolean ioLogging = false;
+	private String touchDevice="";
+
+	 public void setMonitor(int touchIndex, boolean ioLogging, String touchDevice) {
+		this.touchIndex = touchIndex;
+		this.ioLogging=ioLogging;
+		 this.touchDevice= touchDevice;
+	}
+
+	public synchronized static Monitor sharedInstance() {
+		if(mSharedInstance == null) mSharedInstance = new Monitor();
+		return mSharedInstance;
+	}
+
 	/**
 	 * Initialises list of devices
 	 *
-	 * @param touchIndex
 	 * returns null if it wasnt able to open the devices (probably meaning te device is not rooted)
-	 * @param ioLogging
 	 */
-	public Monitor(int touchIndex, boolean ioLogging) {
-		this.touchIndex = touchIndex;
+	private Monitor() {
 		Events ev = new Events();
 		dev = ev.Init();
 		//if a device was successfuly opened then the deviec is rooted
@@ -42,8 +53,8 @@ public class Monitor {
 			rooted=true;
 			monitoring = new boolean[dev.size()];
 		}
-		this.ioLogging=ioLogging;
 	}
+
 
 	/**
 	 * Log keystroke if logger is enable TODO
@@ -119,7 +130,7 @@ public class Monitor {
 		if(monitoring==null || index>monitoring.length){
 			return ;
 		}
-		Log.d(TBBService.TAG, "index device " +index);
+		//Log.d(TBBService.TAG, "index device " +index);
 
 		if (state != monitoring[index]) {
 			monitoring[index] = state;
@@ -230,7 +241,7 @@ public class Monitor {
                 return -1;
 			for (int i = 0; i < devices.length; i++) {
 				Log.d(TBBService.TAG, "device " +devices[i] + " " + i);
-				if (devices[i] != null && (devices[i].contains("touchscreen")|| devices[i].contains("mxt224_ts_input"))){
+				if (devices[i] != null && (devices[i].contains(touchDevice)/*||devices[i].contains("touchscreen")|| devices[i].contains("mxt224_ts_input")*/)){
 					Log.d(TBBService.TAG, "monitoring device " +devices[i] + " " + i);
 					monitorDevice(i, state);
 					return i;

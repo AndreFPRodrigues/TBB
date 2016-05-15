@@ -15,8 +15,13 @@
             android:summary="@string/set_tpr"
             android:title="@string/tpr"
             />
-         
-          
+
+        <ListPreference
+            android:defaultValue="null"
+            android:key="@string/BB.PREFERENCE.TOUCH_DRIVER"
+            android:summary="@string/set_driver"
+            android:title="@string/driver"
+            />
          
       <CheckBoxPreference
             android:defaultValue="true"

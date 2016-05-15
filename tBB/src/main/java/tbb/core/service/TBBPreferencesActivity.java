@@ -13,6 +13,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import blackbox.tinyblackbox.R;
+import tbb.core.CoreController;
+import tbb.core.ioManager.Monitor;
 import tbb.core.logger.CloudStorage;
 import tbb.core.logger.Encryption;
 import tbb.core.logger.MessageLogger;
@@ -29,6 +31,23 @@ public class TBBPreferencesActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
         MessageLogger.sharedInstance().requestStorageInfo(getApplicationContext());
+
+        //touch device preference
+        final ListPreference listPreference = (ListPreference) findPreference(getString(R.string.BB_PREFERENCE_TOUCH_DRIVER));
+        //get list of devices
+        setDeviceList(listPreference);
+        listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                setDeviceList(listPreference);
+                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(
+                        getString(R.string.BB_PREFERENCE_TOUCH_DRIVER), (String)newValue);
+                editor.commit();
+                return true;
+            }
+        });
 
         preferenceClickListener = new Preference.OnPreferenceClickListener() {
             @Override
@@ -106,5 +125,12 @@ public class TBBPreferencesActivity extends PreferenceActivity {
         encrypt_pref.setOnPreferenceClickListener(preferenceClickListener);
         app_permissions.setOnPreferenceClickListener(preferenceClickListener);
 
+    }
+
+    protected static void setDeviceList (ListPreference lp) {
+        Monitor m = Monitor.sharedInstance();
+        lp.setEntries( m.getDevices());
+        lp.setDefaultValue("");
+        lp.setEntryValues( m.getDevices());
     }
 }

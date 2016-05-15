@@ -26,13 +26,16 @@
     <string name="keyboard">Keyboard</string>
     <string name="set_keyboard">Select the active keyboard</string>
     <string name="tpr">Touch Protocol</string>
+    <string name="driver">Select Device</string>
     <string name="set_tpr">Select the multi-touch protocol</string>
+    <string name="set_driver">Select the touchscreen device</string>
     <string name="title_activity_run_macro">RunMacro</string>
 
 
    <!--PREFERENCE STRINGS-->
    <string name="BB.PREFERENCE.TOUCH_RECOGNIZER">BB.PREFERENCE.TOUCH_RECOGNIZER</string>
-   <string name="BB.PREFERENCE.LOGGING">BB.PREFERENCE.LOGGING</string>
+    <string name="BB.PREFERENCE.TOUCH_DRIVER">BB.PREFERENCE.TOUCH_DRIVER</string>
+    <string name="BB.PREFERENCE.LOGGING">BB.PREFERENCE.LOGGING</string>
    <string name="BB.PREFERENCE.FLAG_RESEARCHER_SESSION">BB.PREFERENCE.FLAG_RESEARCHER_SESSION</string>
    <string name="BB.PREFERENCE.FORCE_ENCRYPT">BB.PREFERENCE.FORCE_ENCRYPT</string>
    <string name="BB.PREFERENCE.FORCE_SYNC">BB.PREFERENCE.FORCE_SYNC</string>

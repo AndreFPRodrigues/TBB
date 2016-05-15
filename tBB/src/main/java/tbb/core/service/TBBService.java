@@ -233,7 +233,9 @@ public class TBBService extends AccessibilityService {
 		// TODO remove dependency of Monitor by initializing it in
 		// CoreController
 		boolean ioLogging = mSharedPref.getBoolean(this.getString(R.string.BB_PREFERENCE_LOGIO), false);
-		mMonitor = new Monitor(-1,ioLogging);
+		String touchDevice = mSharedPref.getString(this.getString(R.string.BB_PREFERENCE_TOUCH_DRIVER), "");
+		mMonitor = Monitor.sharedInstance();
+		mMonitor.setMonitor(-1, ioLogging,touchDevice);
 
 		// initialise coreController
 		CoreController.sharedInstance().initialize(mMonitor, this);

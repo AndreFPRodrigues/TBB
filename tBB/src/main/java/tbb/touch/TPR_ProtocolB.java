@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class TPR_ProtocolB extends TouchRecognizer {
 
-    private final String LT = "TPRtabpro";
+    private final String LT = "TPR_B";
     private int slot = 0, nextSlot = 0;
     private boolean wasUP = false;
     private int lastID = -1;
@@ -136,7 +136,7 @@ public class TPR_ProtocolB extends TouchRecognizer {
      */
     @Override
     public int identifyOnChange(int type, int code, int value, int timestamp) {
-        Log.d(LT, "t:" + type + " c:" + code + " v:" + value); // " time:"
+        //Log.d(LT, "t:" + type + " c:" + code + " v:" + value); // " time:"
 		/*if(lastTimestamp>-1){
 			if(){}
 		}*/
