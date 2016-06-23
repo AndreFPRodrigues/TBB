@@ -46,6 +46,9 @@ public class Monitor {
 	 * returns null if it wasnt able to open the devices (probably meaning te device is not rooted)
 	 */
 	private Monitor() {
+
+		if(Shell.isSuAvailable())
+			Shell.runCommandNoWait("su 0 setenforce 0");
 		Events ev = new Events();
 		dev = ev.Init();
 		//if a device was successfuly opened then the deviec is rooted

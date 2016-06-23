@@ -3,6 +3,7 @@ package tbb.core.ioManager;
 import android.util.Log;
 
 import java.io.*;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +29,7 @@ import tbb.core.service.TBBService;
  */
 
 public class Shell {
-  private static final String TAG = "Shell"; 
+  private static final String TAG = "Shell";
 
   private static String shell;
 
@@ -44,15 +45,15 @@ public class Shell {
   private static final String EXIT = "exit\n";
 
   private static final String[] SU_COMMANDS = new String[]{
-    "su",
-    "/system/xbin/su",
-    "/system/bin/su"
+          "su",
+          "/system/xbin/su",
+          "/system/bin/su"
   };
 
   private static final String[] TEST_COMMANDS = new String[]{
-    "id",
-    "/system/xbin/id",
-    "/system/bin/id"
+          "id",
+          "/system/xbin/id",
+          "/system/bin/id"
   };
 
   public static synchronized boolean isSuAvailable() {
@@ -108,6 +109,100 @@ public class Shell {
     }
   }
 
+  public static boolean runCommandNoWait(String command) {
+    try {
+      executeCommandLine(command, 1000,OUTPUT.BOTH);
+      return true;
+    } catch (IOException ignored) {
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (TimeoutException e) {
+      e.printStackTrace();
+    }
+    return false;
+
+  }
+  public static int executeCommandLine(final String commandLine,
+                                       final long timeout,final OUTPUT o)
+          throws IOException, InterruptedException, TimeoutException {
+    DataOutputStream os = null;
+    Process process = null;
+    Runtime runtime = Runtime.getRuntime();
+    process = Runtime.getRuntime().exec(new String [] {shell, "echo done;\n"});
+    os = new DataOutputStream(process.getOutputStream());
+    InputStreamHandler sh = sinkProcessOutput(process, o);
+    os.writeBytes(commandLine + "&& echo donwe \n" );
+    os.flush();
+    os.writeBytes(EXIT);
+    os.flush();
+    os.writeBytes("echo donwe;" );
+    os.flush();
+    Worker worker = new Worker(process);
+    worker.start();
+    try {
+      worker.join(timeout);
+      if (worker.exit != null)
+        return worker.exit;
+      else
+        throw new TimeoutException();
+    } catch(InterruptedException ex) {
+      worker.interrupt();
+      Thread.currentThread().interrupt();
+      throw ex;
+    } finally {
+      process.destroy();
+    }
+  }
+
+  private static class Worker extends Thread {
+    private final Process process;
+    private Integer exit;
+    private Worker(Process process) {
+      this.process = process;
+    }
+    public void run() {
+      try {
+        exit = process.waitFor();
+      } catch (InterruptedException ignore) {
+        return;
+      }
+    }
+  }
+  private static String _runCommandNoWait(final String command, final OUTPUT o) throws IOException {
+    Thread t = new Thread() {
+      @Override
+      public void run() {
+        DataOutputStream os = null;
+        Process process = null;
+        try {
+          process = Runtime.getRuntime().exec(new String [] {shell, "echo done;\n"});
+          os = new DataOutputStream(process.getOutputStream());
+          InputStreamHandler sh = sinkProcessOutput(process, o);
+          os.writeBytes(command + "&& echo donwe \n" );
+          os.flush();
+          os.writeBytes(EXIT);
+          os.flush();
+          os.writeBytes("echo donwe;" );
+          os.flush();
+          Log.e(TAG, "Waiting init: ");
+
+          process.waitFor();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    };
+
+    t.start();
+    Log.e(TAG, "Waiting end: ");
+
+    return  "";
+
+
+  }
+
   private static String _runCommand(String command, OUTPUT o) throws IOException {
     DataOutputStream os = null;
     Process process = null;
@@ -122,14 +217,13 @@ public class Shell {
       process.waitFor();
       if (sh != null) {
         String output = sh.getOutput();
-        Log.d(TAG, command + " output: " + output);
         return output;
       } else {
         return null;
       }
     } catch (Exception e) {
       final String msg = e.getMessage();
-      Log.e(TAG, "runCommand error: " + msg);
+      Log.e(TAG, "runComman d error: " + msg);
       CoreController.sharedInstance().permission=false;
       TBBService.writeToErrorLog(e);
       throw new IOException(msg);
@@ -141,7 +235,8 @@ public class Shell {
         if (process != null) {
           process.destroy();
         }
-      } catch (Exception ignored) {}
+      } catch (Exception ignored) {
+      }
     }
   }
 
